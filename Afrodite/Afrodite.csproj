@@ -35,6 +35,9 @@
     <Reference Include="Apache.NMS.ActiveMQ">
       <HintPath>..\packages\Apache.NMS.ActiveMQ.1.7.0\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,9 +48,16 @@
     <Compile Include="Abstract\IJob.cs" />
     <Compile Include="Abstract\IRegistrationStatus.cs" />
     <Compile Include="Connection\ServerConnectionProvider.cs" />
-    <Compile Include="Connection\ConnectRequest.cs" />
     <Compile Include="Connection\MessageType.cs" />
     <Compile Include="Abstract\IComponentProperties.cs" />
+    <Compile Include="Concrete\MachineStateCollection.cs" />
+    <Compile Include="Concrete\StatesManager.cs" />
+    <Compile Include="Connection\Abstract\IMachinesManager.cs" />
+    <Compile Include="Connection\Abstract\IMachineStateCollection.cs" />
+    <Compile Include="Connection\Abstract\IStatesManager.cs" />
+    <Compile Include="Connection\Concrete\MachinesManager.cs" />
+    <Compile Include="Connection\ClientConnectionProvider.cs" />
+    <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -56,5 +66,8 @@
   <ItemGroup>
     <Folder Include="Abstract\" />
     <Folder Include="Connection\" />
+    <Folder Include="Concrete\" />
+    <Folder Include="Connection\Abstract\" />
+    <Folder Include="Connection\Concrete\" />
   </ItemGroup>
 </Project>

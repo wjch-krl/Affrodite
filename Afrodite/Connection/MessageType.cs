@@ -6,6 +6,10 @@ namespace Afrodite
 	{
 		ConnectionRequest,
 		Affirmation,
+		StartNewJob,
+		StopJob,
+		PauseJob,
+		ResumeJob,
 		Negation,
 		Status,
 		Error

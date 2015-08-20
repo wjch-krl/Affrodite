@@ -11,14 +11,17 @@ namespace Afrodite
 		IMessageConsumer consument;
 		ISession session;
 		IConnection connection;
+		IMachinesManager machineManager;
+		IStatesManager machineStates;
 
-		public ServerConnectionProvider (string connectionUri)
+		public ServerConnectionProvider (NMSConnectionFactory factory,string masterQueueName,
+			IMachinesManager machineManager,IStatesManager machineStates)
 		{
-			var uri = new Uri (connectionUri);
-			IConnectionFactory factory = new NMSConnectionFactory (uri);
+			this.machineStates = machineStates;
+			this.machineManager = machineManager;
 			connection = factory.CreateConnection ();
 			session = connection.CreateSession ();
-			IDestination destination = session.GetDestination("queue://FOO.BAR");
+			IDestination destination = session.GetDestination(masterQueueName);
 			producer = session.CreateProducer ();
 
 			consument = session.CreateConsumer (destination);
@@ -26,7 +29,7 @@ namespace Afrodite
 			connection.Start ();
 		}
 
-		void ConsumentListener (IMessage message)
+		private void ConsumentListener (IMessage message)
 		{
 			MessageType type = (MessageType)Enum.Parse (typeof(MessageType), message.NMSType, true);
 			switch (type)
@@ -41,21 +44,23 @@ namespace Afrodite
 			}
 		}
 
-		void AckownlageMessage (IMessage message)
+		private void AckownlageMessage (IMessage message)
 		{
 			var ack = producer.CreateMessage ();
-			ack.NMSType = "ACK";
+			ack.NMSType = MessageType.Affirmation.ToString ();
 			producer.Send (message.NMSReplyTo, ack);
 		}
 
-		public void ProcessConnectMsg (IMessage message)
+		private void ProcessConnectMsg (IMessage message)
 		{
-
+			var props = message.ToObject<IComponentProperties> ();
+			machineManager.Add (props);
 		}
 
-		public void ProcessStatusMsg (IMessage message)
+		private void ProcessStatusMsg (IMessage message)
 		{
-
+			var state = message.ToObject<IComponentState> ();
+			machineStates [state.MachineId].Add (state);
 		}
 
 		public void Dispose ()

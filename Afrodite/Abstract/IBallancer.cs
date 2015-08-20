@@ -10,5 +10,7 @@ namespace Afrodite
 		IComponentState GetComponentState(IComponent component);
 		event EventHandler<IComponent> ComponentRegistred;
 		event EventHandler<IComponent> ComponentDisconected;
+		event EventHandler<IComponentState> NewStateRecieved;
+
 	}
 }

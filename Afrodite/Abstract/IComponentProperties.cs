@@ -39,6 +39,11 @@ namespace Afrodite
 		/// </summary>
 		/// <value>HostName.</value>
 		string HostName { get; set;}
+		/// <summary>
+		/// Gets or sets the machine identifier (Set in settings).
+		/// </summary>
+		/// <value>The machine identifier.</value>
+		int MachineId{ get; set;}
 	}
 }
 
