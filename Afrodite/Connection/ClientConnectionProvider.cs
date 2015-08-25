@@ -1,5 +1,7 @@
 ﻿using System;
 using Apache.NMS;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Afrodite
 {
@@ -10,32 +12,67 @@ namespace Afrodite
 		ISession session;
 		IConnection connection;
 		IComponentPropertiesBuilder propertiesBuilder;
+		IDestination masterQueue;
+		ICurrentMachineStateManager componentStateManager;
+		bool run;
+		int stateInnterval;
 
-		public ClientConnectionProvider (NMSConnectionFactory factory, int timeout,
-		                                 string masterQueueName, string clientQueueName, IComponentPropertiesBuilder propertiesBuilder)
+		public ClientConnectionProvider (NMSConnectionFactory factory, int timeout, string 
+			masterQueueName, string clientQueueName, IComponentPropertiesBuilder propertiesBuilder,
+			ICurrentMachineStateManager componentStateManager, int stateInnterval)
 		{
+			this.stateInnterval = stateInnterval;
+			this.componentStateManager = componentStateManager;
+			this.propertiesBuilder = propertiesBuilder;
+	
 			connection = factory.CreateConnection ();
 			session = connection.CreateSession ();
-			ConnectToMaster (masterQueueName,timeout);
+			masterQueue = session.GetDestination (masterQueueName);
 
-			this.propertiesBuilder = propertiesBuilder;
+			ConnectToMaster (masterQueue,timeout);
+
 			consument = session.CreateConsumer (session.GetQueue (clientQueueName));
 			consument.Listener += ConsumentListener;
+
 			connection.Start ();
+			run = true;
+			Task.Factory.StartNew (StartSendingState);
 		}
 
-		void ConnectToMaster (string masterQueueName, int timeout)
+		void StartSendingState()
 		{
-			IDestination destination = session.GetDestination (masterQueueName);
+			do
+			{
+				SendState ();
+				Thread.Sleep (stateInnterval);
+
+			} while (run);
+		}
+
+		void SendState ()
+		{
+			using (var clientProd = session.CreateProducer ())
+			{
+				var state = componentStateManager.CurrentState;
+				var msg = session.CreateObjectMessage (state);
+				msg.NMSType = MessageType.Status.ToString ();
+				clientProd.Send (msg);
+			}
+		}
+
+		void ConnectToMaster (IDestination masterQueue, int timeout)
+		{
 			producer = session.CreateProducer ();
 			var props = propertiesBuilder.CreateProperties ();
 			using (var clientProd = session.CreateProducer ())
 			{
-				using (var clientCons = session.CreateConsumer (destination))
+				using (var clientCons = session.CreateConsumer (masterQueue))
 				{
-					clientProd.Send (session.CreateObjectMessage (props));
-					var msg = clientCons.Receive (TimeSpan.FromMilliseconds (timeout));
-					if (msg == null)
+					var msg = session.CreateObjectMessage (props);
+					msg.NMSType = MessageType.ConnectionRequest.ToString ();
+					clientProd.Send (msg);
+					var ack = clientCons.Receive (TimeSpan.FromMilliseconds (timeout));
+					if (ack == null)
 					{
 						throw new TimeoutException ("Master not answering");
 					}
@@ -109,7 +146,6 @@ namespace Afrodite
 			session.Dispose ();
 			connection.Dispose ();
 		}
-
 	}
 }
 

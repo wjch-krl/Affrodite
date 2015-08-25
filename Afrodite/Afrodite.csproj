@@ -58,6 +58,9 @@
     <Compile Include="Connection\Concrete\MachinesManager.cs" />
     <Compile Include="Connection\ClientConnectionProvider.cs" />
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
+    <Compile Include="Connection\IComonentStateManager.cs" />
+    <Compile Include="Connection\IMachineJob.cs" />
+    <Compile Include="Dereflektor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

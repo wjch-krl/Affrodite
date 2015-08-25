@@ -2,6 +2,7 @@
 using Apache.NMS;
 using Apache.NMS.ActiveMQ.Commands;
 using System.Diagnostics;
+using Apache.NMS.ActiveMQ.Threads;
 
 namespace Afrodite
 {
@@ -61,6 +62,28 @@ namespace Afrodite
 		{
 			var state = message.ToObject<IComponentState> ();
 			machineStates [state.MachineId].Add (state);
+		}
+
+		public bool StartNewJob<T>(IMachineJob<T> job, int machineId)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public bool StopJob(Guid jobId,int machineId)
+		{
+			throw new NotImplementedException ();
+
+		}
+
+		public bool PauseJob(Guid jobId,int machineId)
+		{
+			throw new NotImplementedException ();
+
+		}
+
+		public bool ResumeJob(Guid jobId,int machineId)
+		{
+			throw new NotImplementedException ();
 		}
 
 		public void Dispose ()
