@@ -81,6 +81,7 @@ namespace Afrodite.Connection
                         throw new InvalidOperationException("Master didn't ACK");
                     }
                 }
+
             }
         }
 
