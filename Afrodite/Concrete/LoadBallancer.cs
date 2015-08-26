@@ -34,8 +34,8 @@ namespace Afrodite.Concrete
         private void DistributeWorkload()
         {
             var newJob = MasterAction(1);
-            var jobDefiniton = new Job<T>(Guid.NewGuid()) {JobData = newJob};
-            componets.First().StartJob(jobDefiniton);
+            var job = componets.First().StartJob(newJob);
+
         }
 
         public IDbConnection DbConnection { get; set; }

@@ -8,7 +8,7 @@ namespace Afrodite.Abstract
 		/// Starts the job.
 		/// </summary>
 		/// <returns>The job.</returns>
-		void StartJob(IJob<T> job);
+		IJob<T> StartJob(T job);
 		/// <summary>
 		/// Pauses the job.
 		/// </summary>
