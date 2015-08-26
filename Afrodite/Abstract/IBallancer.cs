@@ -6,8 +6,8 @@ namespace Afrodite.Abstract
 {
 	public interface IBallancer<T>
 	{
-		IRegistrationStatus RegisterComponent(IComponent component);
-		IEnumerable<IComponent> GetComponents();
+        IRegistrationStatus RegisterComponent(IComponent<T> component);
+        IEnumerable<IComponent<T>> GetComponents();
 //		IComponentState GetComponentState(IComponent component);
 //		event EventHandler<IComponent> ComponentRegistred;
 //		event EventHandler<IComponent> ComponentDisconected;

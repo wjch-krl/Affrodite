@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Afrodite.Abstract
 {
-	public interface IComponentState
+	public interface IComponentState<T>
 	{
 		/// <summary>
 		/// Gets the machine identifier.
@@ -28,6 +28,6 @@ namespace Afrodite.Abstract
 		/// Gets the active jobs.
 		/// </summary>
 		/// <value>The active jobs.</value>
-		IEnumerable<IJob> ActiveJobs{ get; }
+		IEnumerable<IJob<T>> ActiveJobs{ get; }
 	}
 }

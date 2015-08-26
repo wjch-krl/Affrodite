@@ -2,9 +2,9 @@ using Afrodite.Abstract;
 
 namespace Afrodite.Connection.Abstract
 {
-	public interface IMachineStateCollection
+    public interface IMachineStateCollection<T>
 	{
-		void Add (IComponentState state);
+        void Add(IComponentState<T> state);
 	}
 }
 

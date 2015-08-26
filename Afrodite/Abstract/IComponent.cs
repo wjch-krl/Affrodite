@@ -1,28 +1,30 @@
+using System.Runtime.InteropServices.ComTypes;
+
 namespace Afrodite.Abstract
 {
-	public interface IComponent
+	public interface IComponent<T>
 	{
 		/// <summary>
 		/// Starts the job.
 		/// </summary>
 		/// <returns>The job.</returns>
-		void StartJob(IJob job);
+		void StartJob(IJob<T> job);
 		/// <summary>
 		/// Pauses the job.
 		/// </summary>
 		/// <param name="job">Job.</param>
-	    void PauseJob(IJob job);
+        void PauseJob(IJob<T> job);
 		/// <summary>
 		/// Resumes the job.
 		/// </summary>
 		/// <param name="job">Job.</param>
-		void ResumeJob(IJob job);
+        void ResumeJob(IJob<T> job);
 		/// <summary>
 		/// Terminates the job.
 		/// </summary>
 		/// <returns><c>true</c>, if job was terminated, <c>false</c> otherwise.</returns>
 		/// <param name="job">Job.</param>
-		bool TerminateJob(IJob job);
+        bool TerminateJob(IJob<T> job);
 		/// <summary>
 		/// Gets component info.
 		/// </summary>
@@ -30,6 +32,6 @@ namespace Afrodite.Abstract
 		/// <summary>
 		/// Gets current machine state.
 		/// </summary>
-		IComponentState State { get; }
+		IComponentState<T> State { get; }
 	}
 }

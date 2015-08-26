@@ -2,9 +2,9 @@ using Afrodite.Abstract;
 
 namespace Afrodite.Connection.Abstract
 {
-	public interface ICurrentMachineStateManager
+	public interface ICurrentMachineStateManager<T>
 	{
-		 IComponentState CurrentState {get;}
+		 IComponentState<T> CurrentState {get;}
 	}
 
 }

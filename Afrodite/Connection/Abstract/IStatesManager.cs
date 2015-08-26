@@ -1,8 +1,8 @@
 namespace Afrodite.Connection.Abstract
 {
-	public interface IStatesManager
+	public interface IStatesManager<T>
 	{
-		IMachineStateCollection this [int key]
+		IMachineStateCollection<T> this [int key]
 		{
 			get;
 			set;

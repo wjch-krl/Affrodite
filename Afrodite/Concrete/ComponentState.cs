@@ -3,10 +3,10 @@ using Afrodite.Abstract;
 
 namespace Afrodite.Concrete
 {
-    public class ComponentState : IComponentState
+    public class ComponentState<T> : IComponentState<T>
     {
         public ComponentState(float[] cpuUsages, int machineId, int usedMemory, 
-            int numberOfRunningJobs, IEnumerable<IJob> activeJobs)
+            int numberOfRunningJobs, IEnumerable<IJob<T>> activeJobs)
         {
             CpuUsages = cpuUsages;
             MachineId = machineId;
@@ -19,6 +19,6 @@ namespace Afrodite.Concrete
         public int UsedMemory { get; private set; }
         public float[] CpuUsages { get; private set; }
         public int NumberOfRunningJobs { get; private set; }
-        public IEnumerable<IJob> ActiveJobs { get; private set; }
+        public IEnumerable<IJob<T>> ActiveJobs { get; private set; }
     }
 }

@@ -5,7 +5,7 @@ using Apache.NMS;
 
 namespace Afrodite.Connection
 {
-    public class ServerConnectionProvider : IDisposable
+    public class ServerConnectionProvider<T> : IDisposable
     {
         private readonly IMessageProducer producer;
         private readonly IMessageConsumer consument;
@@ -13,10 +13,10 @@ namespace Afrodite.Connection
         private readonly IConnection connection;
         private readonly IMachinesManager machineManager;
         private readonly TimeSpan recieveTimeout;
-        private readonly IStatesManager machineStates;
+        private readonly IStatesManager<T> machineStates;
 
         public ServerConnectionProvider(NMSConnectionFactory factory, string masterQueueName, long recieveTimeout,
-            IMachinesManager machineManager, IStatesManager machineStates)
+            IMachinesManager machineManager, IStatesManager<T> machineStates)
         {
             this.recieveTimeout = new TimeSpan(recieveTimeout);
             this.machineStates = machineStates;
@@ -61,7 +61,7 @@ namespace Afrodite.Connection
 
         private void ProcessStatusMsg(IMessage message)
         {
-            var state = message.ToObject<IComponentState>();
+            var state = message.ToObject<IComponentState<T>>();
             machineStates[state.MachineId].Add(state);
         }
 

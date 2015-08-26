@@ -7,20 +7,20 @@ using Apache.NMS;
 
 namespace Afrodite.Connection
 {
-    public class ClientConnectionProvider : IDisposable
+    public class ClientConnectionProvider<T> : IDisposable
     {
         private IMessageProducer producer;
         private IMessageConsumer consument;
         private ISession session;
         private IConnection connection;
         private IComponentPropertiesBuilder propertiesBuilder;
-        private ICurrentMachineStateManager componentStateManager;
+        private ICurrentMachineStateManager<T> componentStateManager;
         private bool run;
         private int stateInnterval;
 
         public ClientConnectionProvider(NMSConnectionFactory factory, int timeout, string
             masterQueueName, string clientQueueName, IComponentPropertiesBuilder propertiesBuilder,
-            ICurrentMachineStateManager componentStateManager, int stateInnterval)
+            ICurrentMachineStateManager<T> componentStateManager, int stateInnterval)
         {
             this.stateInnterval = stateInnterval;
             this.componentStateManager = componentStateManager;

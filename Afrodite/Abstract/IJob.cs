@@ -1,9 +1,12 @@
 
+using System;
+
 namespace Afrodite.Abstract
 {
-	public interface IJob 
+	public interface IJob <T>
 	{
 		JobState State { get; set; }
-		int JobId { get; }
+		Guid JobId { get; }
+        T JobData { get; set; }
 	}
 }
