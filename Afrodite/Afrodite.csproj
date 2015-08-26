@@ -42,6 +42,9 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Job.cs" />
+    <Compile Include="Concrete\RegistrationStatus.cs" />
+    <Compile Include="Concrete\LoadBallancer.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,7 +67,7 @@
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
     <Compile Include="Connection\Abstract\IComonentStateManager.cs" />
     <Compile Include="Connection\Abstract\IMachineJob.cs" />
-    <Compile Include="Dereflektor.cs" />
+    <Compile Include="Deflector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
