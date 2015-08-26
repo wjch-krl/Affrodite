@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Afrodite.Abstract;
+using Afrodite.Connection.Abstract;
 using Apache.NMS;
 
 namespace Afrodite.Connection
