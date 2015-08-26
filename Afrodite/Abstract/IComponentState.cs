@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace Afrodite
+namespace Afrodite.Abstract
 {
 	public interface IComponentState
 	{

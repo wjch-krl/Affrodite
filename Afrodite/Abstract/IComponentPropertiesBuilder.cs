@@ -1,7 +1,4 @@
-using System;
-using Apache.NMS;
-
-namespace Afrodite
+namespace Afrodite.Abstract
 {
 	public interface IComponentPropertiesBuilder
 	{

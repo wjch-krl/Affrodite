@@ -1,7 +1,6 @@
-using System;
-using Apache.NMS;
+using Afrodite.Abstract;
 
-namespace Afrodite
+namespace Afrodite.Connection
 {
 	public interface ICurrentMachineStateManager
 	{

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Afrodite.Connection.Abstract;
 
-namespace Afrodite
+namespace Afrodite.Concrete
 {
 	public class StatesManager : IStatesManager
 	{

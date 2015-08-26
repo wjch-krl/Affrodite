@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Afrodite
+﻿namespace Afrodite.Abstract
 {
 	public interface IComponentProperties
 	{

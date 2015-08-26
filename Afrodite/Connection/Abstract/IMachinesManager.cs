@@ -1,9 +1,6 @@
-using System;
-using Apache.NMS;
-using Apache.NMS.ActiveMQ.Commands;
-using System.Diagnostics;
+using Afrodite.Abstract;
 
-namespace Afrodite
+namespace Afrodite.Connection.Abstract
 {
 	public interface IMachinesManager
 	{

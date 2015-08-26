@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Afrodite.Abstract;
+using Afrodite.Connection.Abstract;
 
-namespace Afrodite
+namespace Afrodite.Connection.Concrete
 {
 	public class MachinesManager : IMachinesManager
 	{

@@ -1,9 +1,10 @@
 ﻿using System;
-using Apache.NMS;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using Afrodite.Abstract;
+using Apache.NMS;
 
-namespace Afrodite
+namespace Afrodite.Connection
 {
 	public class ClientConnectionProvider : IDisposable
 	{
@@ -129,7 +130,6 @@ namespace Afrodite
 		private void ProcessStop (IMessage message)
 		{
 			throw new NotImplementedException ();
-
 		}
 
 		private void AckownlageMessage (IMessage message)

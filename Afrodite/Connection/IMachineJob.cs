@@ -1,9 +1,6 @@
 using System;
-using Apache.NMS;
-using Apache.NMS.ActiveMQ.Commands;
-using System.Diagnostics;
 
-namespace Afrodite
+namespace Afrodite.Connection
 {
 	public interface IMachineJob<T>
 	{

@@ -1,5 +1,5 @@
 
-namespace Afrodite
+namespace Afrodite.Abstract
 {
 	public interface IJob 
 	{
