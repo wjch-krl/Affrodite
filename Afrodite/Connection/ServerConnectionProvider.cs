@@ -7,13 +7,13 @@ namespace Afrodite.Connection
 {
     public class ServerConnectionProvider : IDisposable
     {
-        private IMessageProducer producer;
-        private IMessageConsumer consument;
-        private ISession session;
-        private IConnection connection;
-        private IMachinesManager machineManager;
+        private readonly IMessageProducer producer;
+        private readonly IMessageConsumer consument;
+        private readonly ISession session;
+        private readonly IConnection connection;
+        private readonly IMachinesManager machineManager;
         private readonly TimeSpan recieveTimeout;
-        private IStatesManager machineStates;
+        private readonly IStatesManager machineStates;
 
         public ServerConnectionProvider(NMSConnectionFactory factory, string masterQueueName, long recieveTimeout,
             IMachinesManager machineManager, IStatesManager machineStates)
@@ -85,7 +85,7 @@ namespace Afrodite.Connection
             return SendJobActionMessage(jobId, machineId, MessageType.ResumeJob);
         }
 
-        private bool SendJobActionMessage<T>(T jobId, int machineId, MessageType type)
+        private bool SendJobActionMessage<T>(T msgBody, int machineId, MessageType type)
         {
             using (IDestination destination = session.GetQueue(String.Format("{0}", machineId)))
             {
@@ -93,11 +93,15 @@ namespace Afrodite.Connection
                 {
                     using (var clientProd = session.CreateProducer())
                     {
-                        var msg = session.CreateObjectMessage(jobId);
+                        var msg = session.CreateObjectMessage(msgBody);
                         msg.NMSType = type.ToString();
                         clientProd.Send(destination, msg);
                     }
                     var ack = clientcons.Receive(recieveTimeout);
+                    if (ack == null)
+                    {
+                        throw new TimeoutException("Master not answering");
+                    }
                     return ack.IsAcknowledge();
                 }
             }

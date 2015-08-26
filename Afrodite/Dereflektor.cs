@@ -2,9 +2,9 @@
 
 namespace Afrodite
 {
-	public class Dereflektor
+	public static class Dereflektor
 	{
-		public T Create<T> (string pattern)
+		public static T Create<T> (string pattern)
 		{
 			Type t = Type.GetType (pattern);
 			if (t == null)
