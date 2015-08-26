@@ -8,9 +8,9 @@ namespace Afrodite
 		IRegistrationStatus RegisterComponent(IComponent component);
 		IEnumerable<IComponent> GetComponents();
 		IComponentState GetComponentState(IComponent component);
-		event EventHandler<IComponent> ComponentRegistred;
-		event EventHandler<IComponent> ComponentDisconected;
-		event EventHandler<IComponentState> NewStateRecieved;
+//		event EventHandler<IComponent> ComponentRegistred;
+//		event EventHandler<IComponent> ComponentDisconected;
+//		event EventHandler<IComponentState> NewStateRecieved;
 
 	}
 }
