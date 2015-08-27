@@ -41,10 +41,18 @@
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Component.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="ConfigFileReader.cs" />
+    <Compile Include="Connection\Concrete\CurrentMachineStateManager.cs" />
+    <Compile Include="IConfig.cs" />
+    <Compile Include="IConfigReader.cs" />
     <Compile Include="IPerformanceManager.cs" />
+    <Compile Include="ITaskRunner.cs" />
+    <Compile Include="LocalComponent.cs" />
     <Compile Include="PerformanceManager.cs" />
     <Compile Include="Concrete\ComponentProperties.cs" />
     <Compile Include="Concrete\ComponentState.cs" />
@@ -60,7 +68,7 @@
     <Compile Include="Abstract\IComponentState.cs" />
     <Compile Include="Abstract\IJob.cs" />
     <Compile Include="Abstract\IRegistrationStatus.cs" />
-    <Compile Include="Connection\ServerConnectionProvider.cs" />
+    <Compile Include="Connection\MasterRemoteEndpoint.cs" />
     <Compile Include="Connection\MessageType.cs" />
     <Compile Include="Abstract\IComponentProperties.cs" />
     <Compile Include="Concrete\MachineStateCollection.cs" />
@@ -69,14 +77,14 @@
     <Compile Include="Connection\Abstract\IMachineStateCollection.cs" />
     <Compile Include="Connection\Abstract\IStatesManager.cs" />
     <Compile Include="Connection\Concrete\MachinesManager.cs" />
-    <Compile Include="Connection\ClientConnectionProvider.cs" />
+    <Compile Include="Connection\SlaveRemoteEndpoiont.cs" />
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
     <Compile Include="Connection\Abstract\ICurrentMachineStateManager.cs" />
     <Compile Include="Deflector.cs" />
+    <Compile Include="RemoteComponent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

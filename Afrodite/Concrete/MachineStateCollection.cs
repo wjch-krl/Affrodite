@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Afrodite.Abstract;
 using Afrodite.Connection.Abstract;
 
@@ -18,11 +19,13 @@ namespace Afrodite.Concrete
 			list.Enqueue (state);
 		}
 
-		public MachineStateCollection (int capcity = 10)
+        public IComponentState<T> Last { get { return list.Last(); } }
+
+        public MachineStateCollection (int capcity = 10)
 		{
 			this.capcity = capcity;
 			this.list = new Queue<IComponentState<T>> (10);
 		}
-	}
+    }
 }
 

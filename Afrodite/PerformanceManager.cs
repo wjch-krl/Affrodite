@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using Microsoft.VisualBasic.Devices;
 
 namespace Afrodite
@@ -32,6 +32,7 @@ namespace Afrodite
                 {
                     performanceCounter.InstanceName = instanceName;
                     samples[instanceName].Add(performanceCounter.NextSample());
+                    Thread.Sleep(100);
                 }
             }
             return samples.ToDictionary(x => x.Key, y => Calculate(y.Value[0], y.Value[1]));
@@ -39,12 +40,12 @@ namespace Afrodite
 
         public ulong GetAviableMemory()
         {
-            return new ComputerInfo().AvailablePhysicalMemory;
+            return new ComputerInfo().AvailablePhysicalMemory / 1048576;
         }
 
         public ulong GetTotalMemory()
         {
-            return new ComputerInfo().TotalPhysicalMemory;
+            return new ComputerInfo().TotalPhysicalMemory / 1048576;
         }
 
         public uint GetCpuCount()
@@ -57,12 +58,6 @@ namespace Afrodite
             return Environment.MachineName;
         }
 
-        public string GetMachineIp()
-        {
-            //Z configu wyciągnąc
-           throw new NotImplementedException();
-        }
-
         public ulong GetTotalDiskSpace()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
@@ -72,6 +67,11 @@ namespace Afrodite
         public void Dispose()
         {
             performanceCounter.Dispose();
+        }
+
+        public ulong GetUsedMemory()
+        {
+            return (new ComputerInfo().TotalPhysicalMemory - new ComputerInfo().AvailablePhysicalMemory) / 1048576;
         }
     }
 }

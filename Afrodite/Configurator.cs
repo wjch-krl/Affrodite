@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
+using Afrodite.Abstract;
 using Afrodite.Concrete;
+using Afrodite.Connection;
 
 namespace Afrodite
 {
@@ -8,9 +12,27 @@ namespace Afrodite
     {
         private static LoadBallancer<T> _ballancer;
 
-        static Configurator()
+
+
+        private static LocalComponent<T> _localTaskRunner;
+
+
+        private static SlaveRemoteEndpoiont<T> _slaveRemoteEndpoiont; 
+
+
+
+
+        public static IConfig Config { get; private set; }
+        
+        public static void SetConfigPath(string path)
         {
-            _ballancer = new LoadBallancer<T>();
+            Config = new ConfigFileReader(path).ReadConfig();
+            _localTaskRunner = new LocalComponent<T>(Config.MachineId);
+        }
+
+        public static void SetPriotitesRange(int maxPriority)
+        {
+            _ballancer = new LoadBallancer<T>(maxPriority);
         }
 
         public static void InitDbConn(string className, string connectionString)
@@ -28,11 +50,25 @@ namespace Afrodite
         public static void RegisterSlaveAction(Func<T, bool> action)
         {
             _ballancer.SlaveAction = action;
+            _localTaskRunner.TaskFunc = action;
         }
 
         public static void RegisterMasterFailureAction(Action action)
         {
             _ballancer.MasterFailureAction = action;
+        }
+
+        public static Task Start()
+        {
+            bool isMaster = true;
+            if (isMaster)
+            {
+                _ballancer.RegisterComponent(_localTaskRunner);
+                return Task.Factory.StartNew(() =>
+                {
+                    _ballancer.Start();
+                });
+            }
         }
     }
 }

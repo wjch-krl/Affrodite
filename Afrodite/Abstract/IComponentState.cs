@@ -21,11 +21,6 @@ namespace Afrodite.Abstract
 		/// <value>The cpu usage.</value>
 		Dictionary<string,float> CpuUsages {get;}
 		/// <summary>
-		/// Gets the number of running jobs.
-		/// </summary>
-		/// <value>The number of running jobs.</value>
-		int NumberOfRunningJobs {get;}
-		/// <summary>
 		/// Gets the active jobs.
 		/// </summary>
 		/// <value>The active jobs.</value>

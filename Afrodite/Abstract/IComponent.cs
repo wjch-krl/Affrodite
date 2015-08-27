@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
-
 namespace Afrodite.Abstract
 {
 	public interface IComponent<T>

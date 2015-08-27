@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Afrodite.Abstract;
+using Afrodite.Connection;
 
 namespace Afrodite.Concrete
 {
-    internal class LoadBallancer<T> : IBallancer<T>
+    public class LoadBallancer<T> : IBallancer<T>
     {
+        private readonly int maxPriority;
         private readonly List<IComponent<T>> componets;
+        private readonly MasterRemoteEndpoint<T> serverConnection; 
 
-        public LoadBallancer()
+        public LoadBallancer(int maxPriority)
         {
+            this.maxPriority = maxPriority;
             this.componets = new List<IComponent<T>>();
         }
 
@@ -28,14 +34,39 @@ namespace Afrodite.Concrete
 
         public void Start()
         {
-            DistributeWorkload();
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    DistributeWorkload();
+                    Thread.Sleep(1000);
+                }
+            });
         }
 
         private void DistributeWorkload()
         {
-            var newJob = MasterAction(1);
-            var job = componets.First().StartJob(newJob);
+            var aviableComponets = ProcessComponents(componets);
+            foreach (var compGroups in aviableComponets)
+            {
+                foreach (var component in compGroups)
+                {
+                    var newJob = MasterAction(compGroups.Key);
+                    var job = component.StartJob(newJob);
+                }
+            }
+        }
 
+        private ILookup<int,IComponent<T>> ProcessComponents(List<IComponent<T>> components)
+        {
+            return components.ToLookup(x => CpuUsageToPriority(x.State.CpuUsages.Values.Average()) , x => x);
+        }
+
+        private int CpuUsageToPriority(float cpuAvgUsage)
+        {
+            double granulation = 100.0/maxPriority;
+            double interval = cpuAvgUsage/granulation;
+            return Convert.ToInt32(interval);
         }
 
         public IDbConnection DbConnection { get; set; }

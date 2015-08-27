@@ -19,8 +19,13 @@ namespace Afrodite.Connection.Concrete
 				list.Add (props.MachineId, props);
 			}
 		}
-			
-		public MachinesManager ()
+
+	    public IComponentProperties this[Guid componentGuid]
+	    {
+	        get { return list[componentGuid]; }
+	    }
+
+	    public MachinesManager ()
 		{
 			this.list = new Dictionary<Guid, IComponentProperties> ();
 		}
