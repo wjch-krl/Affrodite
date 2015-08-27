@@ -29,6 +29,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="Apache.NMS">
       <HintPath>..\packages\Apache.NMS.1.7.0\lib\net40\Apache.NMS.dll</HintPath>
@@ -43,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Component.cs" />
+    <Compile Include="IPerformanceManager.cs" />
+    <Compile Include="PerformanceManager.cs" />
     <Compile Include="Concrete\ComponentProperties.cs" />
     <Compile Include="Concrete\ComponentState.cs" />
     <Compile Include="Concrete\Job.cs" />
@@ -69,7 +72,6 @@
     <Compile Include="Connection\ClientConnectionProvider.cs" />
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
     <Compile Include="Connection\Abstract\ICurrentMachineStateManager.cs" />
-    <Compile Include="Connection\Abstract\IMachineJob.cs" />
     <Compile Include="Deflector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -78,6 +80,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
+    <Folder Include="Client\" />
+    <Folder Include="Server\" />
   </ItemGroup>
 </Project>

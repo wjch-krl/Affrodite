@@ -8,7 +8,7 @@ using Microsoft.VisualBasic.Devices;
 
 namespace Afrodite
 {
-    internal class PerformanceManager : IDisposable
+    internal class PerformanceManager : IDisposable, IPerformanceManager
     {
         private PerformanceCounter performanceCounter;
 
@@ -66,7 +66,7 @@ namespace Afrodite
         public ulong GetTotalDiskSpace()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
-            return (ulong)drives.Sum(x => x.TotalSize);
+            return (ulong)drives.Sum(x => x.TotalSize / 1048576);
         }
 
         public void Dispose()

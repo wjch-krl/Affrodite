@@ -1,16 +1,17 @@
-﻿using Afrodite.Abstract;
+﻿using System;
+using Afrodite.Abstract;
 
 namespace Afrodite.Concrete
 {
     public class ComponentProperties : IComponentProperties
     {
         public string CpuInfo { get; set; }
-        public int CpuCoresCount { get; set; }
-        public int TotalMemoryMBytes { get; set; }
+        public uint CpuCoresCount { get; set; }
+        public ulong TotalMemoryMBytes { get; set; }
         public string OsInfo { get; set; }
-        public int TotalDiskMBytes { get; set; }
+        public ulong TotalDiskMBytes { get; set; }
         public string CoputerName { get; set; }
         public string HostName { get; set; }
-        public int MachineId { get; set; }
+        public Guid MachineId { get; set; }
     }
 }

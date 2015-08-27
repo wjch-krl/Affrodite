@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Afrodite.Abstract;
 
@@ -5,7 +6,7 @@ namespace Afrodite.Concrete
 {
     public class ComponentState<T> : IComponentState<T>
     {
-        public ComponentState(float[] cpuUsages, int machineId, int usedMemory, 
+        public ComponentState(Dictionary<string, float> cpuUsages, Guid machineId, ulong usedMemory, 
             int numberOfRunningJobs, IEnumerable<IJob<T>> activeJobs)
         {
             CpuUsages = cpuUsages;
@@ -15,9 +16,9 @@ namespace Afrodite.Concrete
             ActiveJobs = activeJobs;
         }
 
-        public int MachineId { get; private set; }
-        public int UsedMemory { get; private set; }
-        public float[] CpuUsages { get; private set; }
+        public Guid MachineId { get; private set; }
+        public ulong UsedMemory { get; private set; }
+        public Dictionary<string, float> CpuUsages { get; private set; }
         public int NumberOfRunningJobs { get; private set; }
         public IEnumerable<IJob<T>> ActiveJobs { get; private set; }
     }

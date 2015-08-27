@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Afrodite.Abstract;
 using Afrodite.Connection.Abstract;
 
@@ -6,7 +7,7 @@ namespace Afrodite.Connection.Concrete
 {
 	public class MachinesManager : IMachinesManager
 	{
-		private IDictionary<int,IComponentProperties> list;
+		private IDictionary<Guid,IComponentProperties> list;
 		public void Add (IComponentProperties props)
 		{
 			if (list.ContainsKey (props.MachineId))
@@ -21,7 +22,7 @@ namespace Afrodite.Connection.Concrete
 			
 		public MachinesManager ()
 		{
-			this.list = new Dictionary<int, IComponentProperties> ();
+			this.list = new Dictionary<Guid, IComponentProperties> ();
 		}
 	}
 }

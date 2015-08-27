@@ -53,7 +53,7 @@ namespace Afrodite.Connection
         {
             using (var clientProd = session.CreateProducer())
             {
-                var state = componentStateManager.CurrentState;
+                var state = componentStateManager.CurrentState();
                 var msg = session.CreateObjectMessage(state);
                 msg.NMSType = MessageType.Status.ToString();
                 clientProd.Send(msg);

@@ -1,4 +1,6 @@
-﻿namespace Afrodite.Abstract
+﻿using System;
+
+namespace Afrodite.Abstract
 {
 	public interface IComponentProperties
 	{
@@ -41,7 +43,7 @@
 		/// Gets or sets the machine identifier (Set in settings).
 		/// </summary>
 		/// <value>The machine identifier.</value>
-		int MachineId{ get; set;}
+		Guid MachineId{ get; set;}
 	}
 }
 

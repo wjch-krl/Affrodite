@@ -6,10 +6,10 @@ namespace Afrodite.Concrete
 {
 	public class StatesManager<T> : IStatesManager<T>
 	{
-		private IDictionary<int,IMachineStateCollection<T>> states;
+        private IDictionary<Guid, IMachineStateCollection<T>> states;
 		private Func<IMachineStateCollection<T>> statesCollection;
 
-		public IMachineStateCollection<T> this [int key]
+		public IMachineStateCollection<T> this [Guid key]
 		{
 			get
 			{
@@ -29,7 +29,7 @@ namespace Afrodite.Concrete
 		public StatesManager (Func<IMachineStateCollection<T>> statesCollection)
 		{
 			this.statesCollection = statesCollection;
-			states = new Dictionary<int,IMachineStateCollection<T>> ();
+            states = new Dictionary<Guid, IMachineStateCollection<T>>();
 		}
 	}
 }

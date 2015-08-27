@@ -65,7 +65,7 @@ namespace Afrodite.Connection
             machineStates[state.MachineId].Add(state);
         }
 
-        public bool StartNewJob<T>(IMachineJob<T> job, int machineId)
+        public bool StartNewJob<T>(IJob<T> job, int machineId)
         {
             return SendJobActionMessage(job, machineId, MessageType.StartNewJob);
         }

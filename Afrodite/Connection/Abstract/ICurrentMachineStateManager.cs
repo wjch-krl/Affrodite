@@ -1,3 +1,4 @@
+using System;
 using Afrodite.Abstract;
 using Afrodite.Concrete;
 
@@ -10,9 +11,19 @@ namespace Afrodite.Connection.Abstract
 
     class CurrentMachineStateManager<T> : ICurrentMachineStateManager<T>
     {
+        private readonly IPerformanceManager performanceManager;
+        private readonly IComponentProperties machineInfo;
+
+        public CurrentMachineStateManager(IPerformanceManager performanceManager,IComponentProperties machineInfo)
+        {
+            this.performanceManager = performanceManager;
+            this.machineInfo = machineInfo;
+        }
+
         public IComponentState<T> CurrentState()
         {
-            return new ComponentState<T>();
+            throw new NotImplementedException();
+          //  return new ComponentState<T>(performanceManager.GetCpusUsage(),machineInfo.MachineId,performanceManager.GetTotalMemory()-performanceManager.GetAviableMemory(),);
         }
     }
 }
