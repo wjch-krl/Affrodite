@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Security;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Afrodite.Connection
 {
@@ -31,13 +27,13 @@ namespace Afrodite.Connection
         {
             udpClient.Send(new byte[1], 1, endPoint);
            var data = udpClient.Receive(ref endPoint);
-
-            return true;
+            throw new NotImplementedException();
         }
 
         public bool Ping(string remoteIp, int remotePort)
         {
-            throw new NotImplementedException();
+            IPAddress ip = IPAddress.Parse(remoteIp);
+            return Ping(new IPEndPoint(ip, remotePort));
         }
     }
 }
