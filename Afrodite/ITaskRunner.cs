@@ -4,10 +4,14 @@ using Afrodite.Abstract;
 
 namespace Afrodite
 {
-    public interface ITaskRunner<T>
+    public interface ITaskRunner<TJob>
     {
-        Func<T, bool> TaskFunc { get; set; }
-        IEnumerable<IJob<T>> GetActiveJobs();
-        IComponentState<T> CurrentState();
+        Func<TJob, bool> StartTaskAction { get; set; }
+        Func<TJob, bool> StopTaskAction { get; set; }
+        Func<TJob, bool> PauseTaskAction { get; set; }
+        Func<TJob, bool> ResumeTaskAction { get; set; }
+
+        IEnumerable<IJob<TJob>> GetActiveJobs();
+        IComponentState<TJob> CurrentState();
     }
 }

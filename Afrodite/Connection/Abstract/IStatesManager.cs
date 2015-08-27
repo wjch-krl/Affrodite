@@ -2,9 +2,9 @@ using System;
 
 namespace Afrodite.Connection.Abstract
 {
-	public interface IStatesManager<T>
+	public interface IStatesManager<TJob>
 	{
-		IMachineStateCollection<T> this [Guid key]
+		IMachineStateCollection<TJob> this [Guid key]
 		{
 			get;
 			set;

@@ -4,12 +4,12 @@ using Afrodite.Connection.Abstract;
 
 namespace Afrodite.Concrete
 {
-	public class StatesManager<T> : IStatesManager<T>
+	public class StatesManager<TJob> : IStatesManager<TJob>
 	{
-        private IDictionary<Guid, IMachineStateCollection<T>> states;
-		private Func<IMachineStateCollection<T>> statesCollection;
+        private IDictionary<Guid, IMachineStateCollection<TJob>> states;
+		private Func<IMachineStateCollection<TJob>> statesCollection;
 
-		public IMachineStateCollection<T> this [Guid key]
+		public IMachineStateCollection<TJob> this [Guid key]
 		{
 			get
 			{
@@ -26,10 +26,10 @@ namespace Afrodite.Concrete
 		}
 
 
-		public StatesManager (Func<IMachineStateCollection<T>> statesCollection)
+		public StatesManager (Func<IMachineStateCollection<TJob>> statesCollection)
 		{
 			this.statesCollection = statesCollection;
-            states = new Dictionary<Guid, IMachineStateCollection<T>>();
+            states = new Dictionary<Guid, IMachineStateCollection<TJob>>();
 		}
 	}
 }

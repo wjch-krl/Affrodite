@@ -4,23 +4,23 @@ using Afrodite.Connection.Abstract;
 
 namespace Afrodite.Connection.Concrete
 {
-    class CurrentMachineStateManager<T> : ICurrentMachineStateManager<T>
+    class CurrentMachineStateManager<TJob> : ICurrentMachineStateManager<TJob>
     {
         private readonly IPerformanceManager performanceManager;
         private readonly IComponentProperties machineInfo;
-        private ITaskRunner<T> localBallancer;
+        private ITaskRunner<TJob> localBallancer;
 
         public CurrentMachineStateManager(IPerformanceManager performanceManager,IComponentProperties machineInfo,
-            ITaskRunner<T> localBallancer)
+            ITaskRunner<TJob> localBallancer)
         {
             this.performanceManager = performanceManager;
             this.machineInfo = machineInfo;
             this.localBallancer = localBallancer;
         }
 
-        public IComponentState<T> CurrentState()
+        public IComponentState<TJob> CurrentState()
         {
-            return new ComponentState<T>(performanceManager.GetCpusUsage(),machineInfo.MachineId,
+            return new ComponentState<TJob>(performanceManager.GetCpusUsage(),machineInfo.MachineId,
                 performanceManager.GetTotalMemory()-performanceManager.GetAviableMemory(),
                 localBallancer.GetActiveJobs());
         }

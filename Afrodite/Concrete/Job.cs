@@ -3,7 +3,7 @@ using Afrodite.Abstract;
 
 namespace Afrodite.Concrete
 {
-    public class Job<T> : IJob<T>
+    public class Job<TJob> : IJob<TJob>
     {
         public Job(Guid jobId)
         {
@@ -12,6 +12,6 @@ namespace Afrodite.Concrete
 
         public JobState State { get; set; }
         public Guid JobId { get; private set; }
-        public T JobData { get; set; }
+        public TJob JobData { get; set; }
     }
 }

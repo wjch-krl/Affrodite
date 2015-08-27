@@ -9,25 +9,25 @@ using Afrodite.Connection;
 
 namespace Afrodite.Concrete
 {
-    public class LoadBallancer<T> : IBallancer<T>
+    public class LoadBallancer<TJob> : IBallancer<TJob>
     {
         private readonly int maxPriority;
-        private readonly List<IComponent<T>> componets;
-        private readonly MasterRemoteEndpoint<T> serverConnection; 
+        private readonly List<IComponent<TJob>> componets;
+        private readonly MasterRemoteEndpoint<TJob> serverConnection;
 
         public LoadBallancer(int maxPriority)
         {
             this.maxPriority = maxPriority;
-            this.componets = new List<IComponent<T>>();
+            this.componets = new List<IComponent<TJob>>();
         }
 
-        public IRegistrationStatus RegisterComponent(IComponent<T> component)
+        public IRegistrationStatus RegisterComponent(IComponent<TJob> component)
         {
             this.componets.Add(component);
             return new RegistrationStatus();
         }
 
-        public IEnumerable<IComponent<T>> GetComponents()
+        public IEnumerable<IComponent<TJob>> GetComponents()
         {
             return componets;
         }
@@ -57,9 +57,9 @@ namespace Afrodite.Concrete
             }
         }
 
-        private ILookup<int,IComponent<T>> ProcessComponents(List<IComponent<T>> components)
+        private ILookup<int, IComponent<TJob>> ProcessComponents(List<IComponent<TJob>> components)
         {
-            return components.ToLookup(x => CpuUsageToPriority(x.State.CpuUsages.Values.Average()) , x => x);
+            return components.ToLookup(x => CpuUsageToPriority(x.State.CpuUsages.Values.Average()), x => x);
         }
 
         private int CpuUsageToPriority(float cpuAvgUsage)
@@ -70,8 +70,12 @@ namespace Afrodite.Concrete
         }
 
         public IDbConnection DbConnection { get; set; }
-        public Func<int, T> MasterAction { get; set; }
-        public Func<T, bool> SlaveAction { get; set; }
+        public Func<int, TJob> MasterAction { get; set; }
+        public Func<TJob, bool> StartTaskAction { get; set; }
+        public Func<TJob, bool> StopTaskAction { get; set; }
+        public Func<TJob, bool> PauseTaskAction { get; set; }
+        public Func<TJob, bool> ResumeTaskAction { get; set; }
+
         public Action MasterFailureAction { get; set; }
     }
 }

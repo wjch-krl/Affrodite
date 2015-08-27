@@ -6,70 +6,72 @@ using Afrodite.Concrete;
 
 namespace Afrodite
 {
-    public class LocalComponent<T> : IComponent<T>, ITaskRunner<T>
+    public class LocalComponent<TJob> : IComponent<TJob>, ITaskRunner<TJob>
     {
         private Guid machineGuid;
         private IPerformanceManager performanceManager;
-        private List<IJob<T>> activeJobs;
+        private List<IJob<TJob>> activeJobs;
 
         public LocalComponent(Guid machineGuid)
         {
             this.machineGuid = machineGuid;
             performanceManager = new PerformanceManager();
-            activeJobs = new List<IJob<T>>();
+            activeJobs = new List<IJob<TJob>>();
         }
 
         public IComponentProperties Properties { get; private set; }
 
-        public IComponentState<T> State
+        public IComponentState<TJob> State
         {
             get { return CurrentState(); }
         }
 
-        public Func<T, bool> TaskFunc { get; set; }
+        public Func<TJob, bool> StartTaskAction { get; set; }
+        public Func<TJob, bool> StopTaskAction { get; set; }
+        public Func<TJob, bool> PauseTaskAction { get; set; }
+        public Func<TJob, bool> ResumeTaskAction { get; set; }
 
-        public IComponentState<T> CurrentState()
+        public IComponentState<TJob> CurrentState()
         {
-            return new ComponentState<T>(performanceManager.GetCpusUsage(), machineGuid,
+            return new ComponentState<TJob>(performanceManager.GetCpusUsage(), machineGuid,
                 performanceManager.GetUsedMemory(), GetActiveJobs());
         }
 
-        public IEnumerable<IJob<T>> GetActiveJobs()
+        public IEnumerable<IJob<TJob>> GetActiveJobs()
         {
             return activeJobs;
         }
 
-        public void PauseJob(IJob<T> job)
+        public void PauseJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+            PauseTaskAction(job.JobData);
         }
 
-        public void ResumeJob(IJob<T> job)
+        public void ResumeJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+            ResumeTaskAction(job.JobData);
         }
 
-        public bool RunTask(T task)
+        public bool RunTask(TJob task)
         {
-            if (TaskFunc == null)
+            if (StartTaskAction == null)
             {
                 throw new InvalidOperationException("No taks runner");
             }
-            return TaskFunc(task);
+            return StartTaskAction(task);
         }
 
-        public IJob<T> StartJob(T job)
+        public IJob<TJob> StartJob(TJob job)
         {
-            var task = Task.Factory.StartNew(() => RunTask(job));
-
-            var runningJob = new Job<T>(new Guid()) {JobData = job, State = JobState.InProgress};
+            Task.Factory.StartNew(() => RunTask(job));
+            var runningJob = new Job<TJob>(new Guid()) {JobData = job, State = JobState.InProgress};
             activeJobs.Add(runningJob);
             return runningJob;
         }
 
-        public bool TerminateJob(IJob<T> job)
+        public bool TerminateJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+            return StopTaskAction(job.JobData);
         }
     }
 }

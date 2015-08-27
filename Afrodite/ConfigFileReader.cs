@@ -12,16 +12,16 @@ namespace Afrodite
             this.path = path;
         }
 
-        public IConfig ReadConfig()
+        public Config ReadConfig()
         {
             using (var fileReader = new StreamReader(path))
             {
                 var serializer = new XmlSerializer(typeof(Config));
-                return (IConfig)serializer.Deserialize(fileReader);
+                return (Config)serializer.Deserialize(fileReader);
             }
         }
 
-        public bool SaveConfig(IConfig config)
+        public bool SaveConfig(Config config)
         {
             using (var textWriter = new StreamWriter(path))
             {

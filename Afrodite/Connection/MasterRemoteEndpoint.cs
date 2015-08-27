@@ -5,7 +5,7 @@ using Apache.NMS;
 
 namespace Afrodite.Connection
 {
-    public class MasterRemoteEndpoint<T> : IDisposable
+    public class MasterRemoteEndpoint<TJob> : IDisposable
     {
         private readonly IMessageProducer producer;
         private readonly IMessageConsumer consument;
@@ -13,10 +13,10 @@ namespace Afrodite.Connection
         private readonly IConnection connection;
         public IMachinesManager MachineManager { get; private set; }
         private readonly TimeSpan recieveTimeout;
-        public IStatesManager<T> MachineStates { get; private set; }
+        public IStatesManager<TJob> MachineStates { get; private set; }
 
         public MasterRemoteEndpoint(NMSConnectionFactory factory, string masterQueueName, long recieveTimeout,
-            IMachinesManager machineManager, IStatesManager<T> machineStates)
+            IMachinesManager machineManager, IStatesManager<TJob> machineStates)
         {
             this.recieveTimeout = new TimeSpan(recieveTimeout);
             this.MachineStates = machineStates;
@@ -61,11 +61,11 @@ namespace Afrodite.Connection
 
         private void ProcessStatusMsg(IMessage message)
         {
-            var state = message.ToObject<IComponentState<T>>();
+            var state = message.ToObject<IComponentState<TJob>>();
             MachineStates[state.MachineId].Add(state);
         }
 
-        public bool StartNewJob(IJob<T> job, Guid machineId)
+        public bool StartNewJob(IJob<TJob> job, Guid machineId)
         {
             return SendJobActionMessage(job, machineId, MessageType.StartNewJob);
         }

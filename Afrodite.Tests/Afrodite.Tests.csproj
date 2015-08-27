@@ -41,4 +41,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Afrodite\Afrodite.csproj">
+      <Project>{DDA1A4E2-4348-4AA9-B3D3-E6745B8CB563}</Project>
+      <Name>Afrodite</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -7,26 +7,26 @@ using Apache.NMS;
 
 namespace Afrodite.Connection
 {
-    public class SlaveRemoteEndpoiont<T> : IDisposable
+    public class SlaveRemoteEndpoiont<TJob> : IDisposable
     {
         private IMessageProducer producer;
         private IMessageConsumer consument;
         private ISession session;
         private IConnection connection;
         private IComponentPropertiesBuilder propertiesBuilder;
-        private ICurrentMachineStateManager<T> componentStateManager;
+        private ICurrentMachineStateManager<TJob> componentStateManager;
         private bool run;
         private int stateInnterval;
-        private IComponent<T> localComponent;
+        private IComponent<TJob> localComponent;
  
         public SlaveRemoteEndpoiont(NMSConnectionFactory factory, int timeout, string
             masterQueueName, string clientQueueName, IComponentPropertiesBuilder propertiesBuilder,
-            ICurrentMachineStateManager<T> componentStateManager, int stateInnterval)
+            ICurrentMachineStateManager<TJob> componentStateManager, int stateInnterval)
         {
             this.stateInnterval = stateInnterval;
             this.componentStateManager = componentStateManager;
             this.propertiesBuilder = propertiesBuilder;
-            this.localComponent = new LocalComponent<T>(Configurator<T>.Config.MachineId);
+            this.localComponent = new LocalComponent<TJob>(Configurator<TJob>.Config.MachineId);
 
             connection = factory.CreateConnection();
             session = connection.CreateSession();
@@ -83,7 +83,6 @@ namespace Afrodite.Connection
                         throw new InvalidOperationException("Master didn't ACK");
                     }
                 }
-
             }
         }
 
@@ -124,7 +123,7 @@ namespace Afrodite.Connection
 
         private void ProcessStart(IMessage message)
         {
-            T job = (T)message.ToObject();
+            TJob job = (TJob)message.ToObject();
             localComponent.StartJob(job);
         }
 

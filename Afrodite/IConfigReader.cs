@@ -2,7 +2,7 @@
 {
     interface IConfigReader
     {
-        IConfig ReadConfig();
-        bool SaveConfig(IConfig config);
+        Config ReadConfig();
+        bool SaveConfig(Config config);
     }
 }

@@ -2,10 +2,10 @@ using Afrodite.Abstract;
 
 namespace Afrodite.Connection.Abstract
 {
-    public interface IMachineStateCollection<T>
+    public interface IMachineStateCollection<TJob>
 	{
-        void Add(IComponentState<T> state);
-        IComponentState<T> Last { get; }
+        void Add(IComponentState<TJob> state);
+        IComponentState<TJob> Last { get; }
 	}
 }
 

@@ -48,7 +48,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigFileReader.cs" />
     <Compile Include="Connection\Concrete\CurrentMachineStateManager.cs" />
-    <Compile Include="IConfig.cs" />
+    <Compile Include="Connection\TcpMaster.cs" />
     <Compile Include="IConfigReader.cs" />
     <Compile Include="IPerformanceManager.cs" />
     <Compile Include="ITaskRunner.cs" />

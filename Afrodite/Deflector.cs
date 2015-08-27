@@ -4,14 +4,14 @@ namespace Afrodite
 {
 	public static class Deflector
 	{
-		public static T Create<T> (string pattern)
+		public static TJob Create<TJob> (string pattern)
 		{
-			Type t = Type.GetType (pattern);
-			if (t == null)
+			Type type = Type.GetType (pattern);
+            if (type == null)
 			{
 				throw new InvalidOperationException ("Type " + pattern + " not found.");
 			}
-			return (T)Activator.CreateInstance (t);
+            return (TJob)Activator.CreateInstance(type);
 		}
 	}
 }
