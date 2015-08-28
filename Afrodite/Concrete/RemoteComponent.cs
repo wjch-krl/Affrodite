@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Afrodite.Abstract;
-using Afrodite.Concrete;
 using Afrodite.Connection;
 
-namespace Afrodite
+namespace Afrodite.Concrete
 {
     public class RemoteComponent<TJob> : IComponent<TJob>, ITaskRunner<TJob>
     {

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Afrodite.Abstract;
-using Afrodite.Concrete;
 
-namespace Afrodite
+namespace Afrodite.Concrete
 {
     public class LocalComponent<TJob> : IComponent<TJob>, ITaskRunner<TJob>
     {

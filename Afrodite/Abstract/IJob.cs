@@ -1,5 +1,6 @@
 
 using System;
+using Afrodite.Concrete;
 
 namespace Afrodite.Abstract
 {

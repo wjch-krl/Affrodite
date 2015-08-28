@@ -1,20 +1,15 @@
-﻿<?xml version     ="1.0" encoding="utf-8"?>
-<Config xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="utf-8"?>
+<LocalHost xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MachineNumber>0</MachineNumber>
   <MachineId>6532f224-3948-4e74-8dc2-b37d3da4aa99</MachineId>
-  <Priority>1</Priority>
-  <MasterQueueName>Social</MasterQueueName>
-  <RecieveTimeout>10000</RecieveTimeout>
   <PingerPort>9999</PingerPort>
-  <DataTransportPort>9999</DataTransportPort>
-  <RemoteHosts>
-    <Items>
-      <RemoteHost>
-        <IpOrHostname>10.132.29.5</IpOrHostname>
-        <MachineId>6532f224-3948-4e74-8dc2-b37d3da4eer9</MachineId>
-      </RemoteHost>
-    </Items>
-  </RemoteHosts>
-</Config>
-<!--laczy się z każdym kolejnym hostem z listy do póki któryś nie odpowie ze master.
-Jeśli żaden master -> wybierany najmniejszy z osiągalnych hostów (uwzględniając aktualny)).
-Sprawdza czy w między czasie lepszy host nie stał się lb.-->
+  <Hosts>
+    <Host>
+      <MachineNumber>3</MachineNumber>
+      <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731c</MachineId>
+      <PingerPort>23145</PingerPort>
+	  <IpOrHostname>10.132.29.5</IpOrHostname>
+    </Host>
+  </Hosts>
+  <Timeout>10000</Timeout>
+</LocalHost>

@@ -1,19 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Afrodite.Common;
 
 namespace Afrodite.Connection
 {
-    internal class Pinger : IDisposable
+    public class Pinger : IDisposable
     {
         private readonly int pingerPort;
         private UdpClient udpClient;
-        private static readonly byte[] EhoMsg = {1, 2, 3, 4, 5, 6, 7};
-        private static readonly byte[] EhoReplyMsg = {7, 6, 5, 4, 3, 2, 1};
+        private static readonly byte[] EhoMsg = { 1, 2, 3, 4, 5, 6, 7 };
+        private static readonly byte[] EhoReplyMsg = { 7, 6, 5, 4, 3, 2, 1 };
         private bool run;
         private Dictionary<string, byte[]> echoRpelies;
 
@@ -21,7 +22,7 @@ namespace Afrodite.Connection
         {
             this.pingerPort = pingerPort;
             run = true;
-            udpClient = new UdpClient(pingerPort) {Client = {ReceiveTimeout = timeout}};
+            udpClient = new UdpClient(pingerPort) { Client = { ReceiveTimeout = timeout } };
             echoRpelies = new Dictionary<string, byte[]>();
             Task.Factory.StartNew(RecieveUdp);
         }
@@ -33,16 +34,20 @@ namespace Afrodite.Connection
                 IPEndPoint reciveEndPoint = new IPEndPoint(IPAddress.Any, pingerPort);
                 try
                 {
-                    GetValue(reciveEndPoint);
+                    ListenForDatagrams(reciveEndPoint);
                 }
                 catch (Exception ex)
                 {
-                    //TODO logg exception
+                    Logger.LoggError(ex, Logger.GetCurrentMethod());
+                }
+                lock (echoRpelies)
+                {
+                    Monitor.PulseAll(echoRpelies);
                 }
             } while (run);
         }
 
-        private void GetValue(IPEndPoint reciveEndPoint)
+        private void ListenForDatagrams(IPEndPoint reciveEndPoint)
         {
             var data = udpClient.Receive(ref reciveEndPoint);
             if (data.SequenceEqual(EhoMsg))
@@ -57,7 +62,6 @@ namespace Afrodite.Connection
                     if (echoRpelies.ContainsKey(ipStr))
                         return;
                     echoRpelies.Add(ipStr, data);
-                    Monitor.PulseAll(echoRpelies);
                 }
             }
         }
@@ -68,11 +72,11 @@ namespace Afrodite.Connection
             {
                 udpClient.Send(EhoMsg, EhoMsg.Length, endPoint);
                 var data = RecieveEcho(endPoint.Address.ToString());
-                return data.SequenceEqual(EhoReplyMsg);
+                return data != null && data.SequenceEqual(EhoReplyMsg);
             }
             catch (Exception ex)
             {
-                //TODO logg exception
+                Logger.LoggError(ex, Logger.GetCurrentMethod());
                 return false;
             }
         }
@@ -90,6 +94,7 @@ namespace Afrodite.Connection
                         echoRpelies.Remove(ip);
                         return data;
                     }
+                    return null;
                 } while (true);
             }
         }

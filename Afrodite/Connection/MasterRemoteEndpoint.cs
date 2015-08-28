@@ -1,5 +1,6 @@
 ﻿using System;
 using Afrodite.Abstract;
+using Afrodite.Common;
 using Afrodite.Connection.Abstract;
 using Apache.NMS;
 

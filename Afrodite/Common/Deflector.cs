@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Afrodite
+namespace Afrodite.Common
 {
 	public static class Deflector
 	{

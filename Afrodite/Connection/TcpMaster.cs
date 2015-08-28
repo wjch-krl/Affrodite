@@ -32,9 +32,9 @@ namespace Afrodite.Connection
                     var client = listener.AcceptTcpClient();
                     ProcessClient(client);
                 }
-                catch (Exception)
+                catch (SocketException ex)
                 {
-                    //TODO handle
+                    Logger.LoggError(ex, Logger.GetCurrentMethod());
                 }
             } while (run);
         }

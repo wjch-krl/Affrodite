@@ -1,24 +1,32 @@
 ﻿using System;
-using System.Threading;
-using Afrodite;
+using AffroditeP2P;
 
 namespace Afrodite.Sample
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+//            var random = new Random();
+//            Configurator<int>.SetMaxPriotity(1);
+//            Configurator<int>.SetConfigPath("affrodite.xml");
+//            Configurator<int>.RegisterMasterAction(i => random.Next());
+//            Configurator<int>.RegisterSlaveAction(i =>
+//            {
+//                Console.WriteLine(i);
+//                return true;
+//            });
+//            Configurator<int>.Start();
+//            Thread.Sleep(100000);
+
             var random = new Random();
-            Configurator<int>.SetMaxPriotity(1);
-            Configurator<int>.SetConfigPath("affrodite.xml");
-            Configurator<int>.RegisterMasterAction(i => random.Next());
-            Configurator<int>.RegisterSlaveAction(i =>
+            SimpleConfig conf = new SimpleConfig("affrodite.xml");
+            var task = conf.StrartLoadBallancer<int>(i => new[] {random.Next()}, i =>
             {
                 Console.WriteLine(i);
                 return true;
-            });
-            Configurator<int>.Start();
-            Thread.Sleep(100000);
+            }, 1);
+            task.Wait();
         }
     }
 }

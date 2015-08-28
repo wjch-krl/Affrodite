@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Afrodite
+namespace Afrodite.Abstract
 {
-    internal interface IPerformanceManager
+    public interface IPerformanceManager
     {
         Dictionary<string,float> GetCpusUsage();
         ulong GetAviableMemory();
@@ -12,5 +12,6 @@ namespace Afrodite
         ulong GetTotalDiskSpace();
         void Dispose();
         ulong GetUsedMemory();
+        float GetAvgCpusUsage();
     }
 }

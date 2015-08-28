@@ -4,11 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Afrodite.Abstract;
 using Microsoft.VisualBasic.Devices;
 
-namespace Afrodite
+namespace Afrodite.Concrete
 {
-    internal class PerformanceManager : IDisposable, IPerformanceManager
+    public class PerformanceManager : IDisposable, IPerformanceManager
     {
         private PerformanceCounter performanceCounter;
 
@@ -72,6 +73,11 @@ namespace Afrodite
         public ulong GetUsedMemory()
         {
             return (new ComputerInfo().TotalPhysicalMemory - new ComputerInfo().AvailablePhysicalMemory) / 1048576;
+        }
+
+        public float GetAvgCpusUsage()
+        {
+            return GetCpusUsage().Values.Average();
         }
     }
 }

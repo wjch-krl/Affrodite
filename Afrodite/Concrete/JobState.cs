@@ -1,4 +1,4 @@
-﻿namespace Afrodite
+﻿namespace Afrodite.Concrete
 {
 	public enum JobState : byte
 	{

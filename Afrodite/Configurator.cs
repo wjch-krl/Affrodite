@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Afrodite.Common;
 using Afrodite.Concrete;
 using Afrodite.Connection;
 
@@ -15,12 +16,12 @@ namespace Afrodite
 
         private static SlaveRemoteEndpoiont<TJob> _slaveRemoteEndpoiont;
 
-        public static Config Config { get; private set; }
+        public static LocalHost LocalHost { get; private set; }
 
         public static void SetConfigPath(string path)
         {
-            Config = new ConfigFileReader(path).ReadConfig();
-            _localTaskRunner = new LocalComponent<TJob>(Config.MachineId);
+            LocalHost = new ConfigFileReader(path).ReadConfig();
+            _localTaskRunner = new LocalComponent<TJob>(LocalHost.MachineId);
         }
 
         public static void SetMaxPriotity(int maxPriority)

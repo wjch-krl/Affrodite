@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ISerializer.cs" />
+    <Compile Include="Common\Logger.cs" />
     <Compile Include="Connection\Abstract\ICurrentMachineStateManager.cs" />
     <Compile Include="Connection\Abstract\IMachinesManager.cs" />
     <Compile Include="Connection\Abstract\IMachineStateCollection.cs" />
@@ -53,29 +54,31 @@
     <Compile Include="Connection\Concrete\MachinesManager.cs" />
     <Compile Include="Connection\ConnectRequest.cs" />
     <Compile Include="Connection\IMessage.cs" />
+    <Compile Include="Connection\IRemoteMachinesManager.cs" />
     <Compile Include="Connection\MasterRemoteEndpoint.cs" />
     <Compile Include="Connection\MessageType.cs" />
-    <Compile Include="Connection\Pinger.cs" />
+    <Compile Include="Connection\RemoteMachinesManager.cs" />
     <Compile Include="Connection\SlaveRemoteEndpoiont.cs" />
     <Compile Include="Connection\TcpMaster.cs" />
-    <Compile Include="RemoteMachinesManager.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ConfigFileReader.cs" />
-    <Compile Include="IConfigReader.cs" />
-    <Compile Include="IPerformanceManager.cs" />
-    <Compile Include="ITaskRunner.cs" />
-    <Compile Include="LocalComponent.cs" />
-    <Compile Include="PerformanceManager.cs" />
+    <Compile Include="Concrete\Host.cs" />
+    <Compile Include="Abstract\IHost.cs" />
+    <Compile Include="Concrete\LocalHost.cs" />
+    <Compile Include="Concrete\ConfigFileReader.cs" />
+    <Compile Include="Abstract\IConfigReader.cs" />
+    <Compile Include="Abstract\IPerformanceManager.cs" />
+    <Compile Include="Abstract\ITaskRunner.cs" />
+    <Compile Include="Concrete\LocalComponent.cs" />
+    <Compile Include="Concrete\PerformanceManager.cs" />
     <Compile Include="Concrete\ComponentProperties.cs" />
     <Compile Include="Concrete\ComponentState.cs" />
     <Compile Include="Concrete\Job.cs" />
     <Compile Include="Concrete\RegistrationStatus.cs" />
     <Compile Include="Concrete\LoadBallancer.cs" />
     <Compile Include="Configurator.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Pinger.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Connection\Pinger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JobState.cs" />
+    <Compile Include="Concrete\JobState.cs" />
     <Compile Include="Abstract\IBallancer.cs" />
     <Compile Include="Abstract\IComponent.cs" />
     <Compile Include="Abstract\IComponentState.cs" />
@@ -85,8 +88,8 @@
     <Compile Include="Concrete\MachineStateCollection.cs" />
     <Compile Include="Concrete\StatesManager.cs" />
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
-    <Compile Include="Deflector.cs" />
-    <Compile Include="RemoteComponent.cs" />
+    <Compile Include="Common\Deflector.cs" />
+    <Compile Include="Concrete\RemoteComponent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

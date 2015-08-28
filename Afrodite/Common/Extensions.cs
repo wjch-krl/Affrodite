@@ -2,7 +2,7 @@
 using Afrodite.Connection;
 using Apache.NMS;
 
-namespace Afrodite
+namespace Afrodite.Common
 {
     public static class Extensions
     {

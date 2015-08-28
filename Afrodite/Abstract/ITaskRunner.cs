@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Afrodite.Abstract;
 
-namespace Afrodite
+namespace Afrodite.Abstract
 {
     public interface ITaskRunner<TJob>
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Afrodite
+﻿namespace Afrodite.Connection
 {
 	public class ConnectRequest
 	{

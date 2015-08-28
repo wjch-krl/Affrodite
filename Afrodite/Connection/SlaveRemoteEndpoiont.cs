@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Afrodite.Abstract;
+using Afrodite.Common;
+using Afrodite.Concrete;
 using Afrodite.Connection.Abstract;
 using Apache.NMS;
 
@@ -26,7 +28,7 @@ namespace Afrodite.Connection
             this.stateInnterval = stateInnterval;
             this.componentStateManager = componentStateManager;
             this.propertiesBuilder = propertiesBuilder;
-            this.localComponent = new LocalComponent<TJob>(Configurator<TJob>.Config.MachineId);
+            this.localComponent = new LocalComponent<TJob>(Configurator<TJob>.LocalHost.MachineId);
 
             connection = factory.CreateConnection();
             session = connection.CreateSession();
