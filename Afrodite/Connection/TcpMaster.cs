@@ -1,39 +1,59 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
+using Afrodite.Common;
+using Afrodite.Concrete;
 
 namespace Afrodite.Connection
 {
-    class TcpMaster
+    internal class TcpMaster : IDisposable
     {
-        private TcpClient client;
+        private TcpListener listener;
+        private bool run;
+        private ISerializer serializer;
 
-        public TcpMaster()
+        public TcpMaster(int port, ISerializer serializer)
         {
-           
-        }
-    }
-
-    class Pinger
-    {
-        private UdpClient udpClient;
-
-        public Pinger(int pingerPort)
-        {
-            udpClient = new UdpClient(pingerPort);
+            this.serializer = serializer;
+            listener = new TcpListener(new IPEndPoint(IPAddress.Any, port));
+            listener.Start();
+            run = true;
+            Task.Factory.StartNew(AcceptClients);
         }
 
-        public bool Ping(IPEndPoint endPoint)
+        private void AcceptClients()
         {
-            udpClient.Send(new byte[1], 1, endPoint);
-           var data = udpClient.Receive(ref endPoint);
-            throw new NotImplementedException();
+            do
+            {
+                try
+                {
+                    var client = listener.AcceptTcpClient();
+                    ProcessClient(client);
+                }
+                catch (Exception)
+                {
+                    //TODO handle
+                }
+            } while (run);
         }
 
-        public bool Ping(string remoteIp, int remotePort)
+        private void ProcessClient(TcpClient client)
         {
-            IPAddress ip = IPAddress.Parse(remoteIp);
-            return Ping(new IPEndPoint(ip, remotePort));
+            var stream = client.GetStream();
+            using (var reader = new StreamReader(stream))
+            {
+                string serializedMsg = reader.ReadToEnd();
+                ComponentProperties props = serializer.Deserialize<ComponentProperties>(serializedMsg);
+
+            }
+        }
+
+        public void Dispose()
+        {
+            run = false;
+            listener.Stop();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Afrodite.Concrete;
@@ -79,5 +80,11 @@ namespace Afrodite
             }
             return Task.Factory.StartNew(() => { });
         }
+
+
+        public static void RegisterMasterAction1(Func<int, IEnumerable<TJob>> action)
+        {
+            
+        }   
     }
 }
