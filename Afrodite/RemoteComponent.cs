@@ -6,7 +6,7 @@ using Afrodite.Connection;
 
 namespace Afrodite
 {
-    public class RemoteComponent<TJob> : IComponent<TJob>, ITaskRunner<TJob>
+    public class RemoteComponent<TJob> : IComponent<TJob>
     {
         private MasterRemoteEndpoint<TJob> remoteConnection;
         private Guid componentGuid;
@@ -26,32 +26,23 @@ namespace Afrodite
 
         public void PauseJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+            remoteConnection.PauseJob(job.JobId, componentGuid);
         }
 
         public void ResumeJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+            remoteConnection.ResumeJob(job.JobId, componentGuid);
         }
 
         public bool TerminateJob(IJob<TJob> job)
         {
-            throw new NotImplementedException();
+           return remoteConnection.StopJob(job.JobId, componentGuid);
         }
 
         public IComponentProperties Properties { get { return remoteConnection.MachineManager[componentGuid]; } }
         public IComponentState<TJob> State { get { return remoteConnection.MachineStates[componentGuid].Last; } }
-        public Func<TJob, bool> StartTaskAction { get; set; }
-        public Func<TJob, bool> StopTaskAction { get; set; }
-        public Func<TJob, bool> PauseTaskAction { get; set; }
-        public Func<TJob, bool> ResumeTaskAction { get; set; }
 
         public IEnumerable<IJob<TJob>> GetActiveJobs()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IComponentState<TJob> CurrentState()
         {
             throw new NotImplementedException();
         }

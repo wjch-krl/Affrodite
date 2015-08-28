@@ -10,8 +10,5 @@ namespace Afrodite
         Func<TJob, bool> StopTaskAction { get; set; }
         Func<TJob, bool> PauseTaskAction { get; set; }
         Func<TJob, bool> ResumeTaskAction { get; set; }
-
-        IEnumerable<IJob<TJob>> GetActiveJobs();
-        IComponentState<TJob> CurrentState();
     }
 }

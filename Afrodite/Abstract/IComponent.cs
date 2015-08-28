@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Afrodite.Abstract
 {
 	public interface IComponent<TJob>
@@ -31,5 +33,10 @@ namespace Afrodite.Abstract
 		/// Gets current machine state.
 		/// </summary>
 		IComponentState<TJob> State { get; }
+        /// <summary>
+        /// Get currently running jobs
+        /// </summary>
+        IEnumerable<IJob<TJob>> GetActiveJobs();
+
 	}
 }
