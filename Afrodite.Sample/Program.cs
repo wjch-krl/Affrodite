@@ -20,6 +20,7 @@ namespace Afrodite.Sample
 //            Thread.Sleep(100000);
             int ijk = 0;
             SimpleConfig conf = new SimpleConfig("affrodite.xml");
+
             var task = conf.StrartLoadBallancer(i => new[] {ijk++}, i =>
             {
                 Console.WriteLine(i);

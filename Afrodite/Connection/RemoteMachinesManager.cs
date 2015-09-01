@@ -37,6 +37,7 @@ namespace Afrodite.Connection
             this.inactiveHosts = new List<IHost>();
             this.hosts = hosts.Select(x => new Tuple<IHost, IPEndPoint>(x, new IPEndPoint(IPAddress.Parse(x.IpOrHostname), x.PingerPort))).ToArray();
             this.pinger = new Pinger(port, timeout);
+            run = true;
             Task.Factory.StartNew(PingAllHosts);
         }
 

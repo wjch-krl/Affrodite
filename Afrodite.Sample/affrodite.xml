@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LocalHost xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <MachineNumber>0</MachineNumber>
+  <MachineNumber>1</MachineNumber>
   <MachineId>6532f224-3948-4e74-8dc2-b37d3da4aa99</MachineId>
   <PingerPort>9999</PingerPort>
   <Hosts>
     <Host>
-      <MachineNumber>1</MachineNumber>
+      <MachineNumber>2</MachineNumber>
       <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731c</MachineId>
-      <PingerPort>23145</PingerPort>
-	  <IpOrHostname>10.132.29.5</IpOrHostname>
+      <PingerPort>9997</PingerPort>
+	    <IpOrHostname>10.132.24.228</IpOrHostname>
     </Host>
   </Hosts>
   <Timeout>10000</Timeout>

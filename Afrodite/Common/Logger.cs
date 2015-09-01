@@ -8,7 +8,6 @@ namespace Afrodite.Common
     {
         public static void LoggError(Exception ex, string message)
         {
-            
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -16,8 +15,10 @@ namespace Afrodite.Common
         {
             StackTrace st = new StackTrace();
             StackFrame sf = st.GetFrame(1);
-
-            return sf.GetMethod().Name;
+            var method = sf.GetMethod();
+            if (method.DeclaringType != null)
+                return string.Format("{0}.{1}", method.DeclaringType.FullName, method.Name);
+            return method.Name;
         }
     }
 }
