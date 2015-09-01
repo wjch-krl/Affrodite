@@ -18,10 +18,9 @@ namespace Afrodite.Sample
 //            });
 //            Configurator<int>.Start();
 //            Thread.Sleep(100000);
-
-            var random = new Random();
+            int ijk = 0;
             SimpleConfig conf = new SimpleConfig("affrodite.xml");
-            var task = conf.StrartLoadBallancer<int>(i => new[] {random.Next()}, i =>
+            var task = conf.StrartLoadBallancer(i => new[] {ijk++}, i =>
             {
                 Console.WriteLine(i);
                 return true;

@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AffroditeP2P\AffroditeP2P.csproj">
+    <ProjectReference Include="..\Afrodite.Masterless\Affrodite.Masterless.csproj">
       <Project>{93F52D4B-63DF-4EF9-9CD8-A092A45727C4}</Project>
-      <Name>AffroditeP2P</Name>
+      <Name>Affrodite.Masterless</Name>
     </ProjectReference>
     <ProjectReference Include="..\Afrodite\Afrodite.csproj">
       <Project>{DDA1A4E2-4348-4AA9-B3D3-E6745B8CB563}</Project>

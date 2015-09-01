@@ -5,7 +5,8 @@ namespace Afrodite.Connection
 {
     public interface IRemoteMachinesManager
     {
-        IList<IHost> AviableHosts { get; }
-        void Dispose();
+        IList<IHost> AviableHosts();
+        int Count { get; }
+        IEnumerable<int> UnaviableHosts();
     }
 }

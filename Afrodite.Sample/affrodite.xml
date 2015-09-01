@@ -5,7 +5,7 @@
   <PingerPort>9999</PingerPort>
   <Hosts>
     <Host>
-      <MachineNumber>3</MachineNumber>
+      <MachineNumber>1</MachineNumber>
       <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731c</MachineId>
       <PingerPort>23145</PingerPort>
 	  <IpOrHostname>10.132.29.5</IpOrHostname>

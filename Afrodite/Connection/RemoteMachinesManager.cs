@@ -12,24 +12,30 @@ namespace Afrodite.Connection
         private readonly IHost localhost;
         private readonly IList<Tuple<IHost, IPEndPoint>> hosts;
         private Pinger pinger;
-        private IList<IHost> activeHosts;
+        private IList<IHost> inactiveHosts;
         private bool run;
 
-        public IList<IHost> AviableHosts
+        public IList<IHost> AviableHosts()
         {
-            get
+            lock (inactiveHosts)
+                return hosts.Where(x => !inactiveHosts.Contains(x.Item1)).Select(x => x.Item1).ToArray();
+        }
+
+        public int Count { get { return hosts.Count + 1; } }
+
+        public IEnumerable<int> UnaviableHosts()
+        {
+            lock (inactiveHosts)
             {
-                lock (activeHosts)
-                    return activeHosts.ToArray();
+                return inactiveHosts.Select(x => x.MachineNumber);
             }
         }
 
         public RemoteMachinesManager(int port, int timeout, IEnumerable<IHost> hosts,IHost localhost)
         {
             this.localhost = localhost;
-            var enumerable = hosts as IList<IHost> ?? hosts.ToList();
-            this.activeHosts = new List<IHost>(enumerable){localhost};
-            this.hosts = enumerable.Select(x => new Tuple<IHost, IPEndPoint>(x, new IPEndPoint(IPAddress.Parse(x.IpOrHostname), x.PingerPort))).ToArray();
+            this.inactiveHosts = new List<IHost>();
+            this.hosts = hosts.Select(x => new Tuple<IHost, IPEndPoint>(x, new IPEndPoint(IPAddress.Parse(x.IpOrHostname), x.PingerPort))).ToArray();
             this.pinger = new Pinger(port, timeout);
             Task.Factory.StartNew(PingAllHosts);
         }
@@ -38,12 +44,11 @@ namespace Afrodite.Connection
         {
             do
             {
-                var tmp = (hosts.Where(remoteHost => pinger.Ping(remoteHost.Item2))
+                var tmp = (hosts.Where(remoteHost => !pinger.Ping(remoteHost.Item2))
                         .Select(remoteHost => remoteHost.Item1)).ToList();
-                tmp.Add(localhost);
-                lock (activeHosts)
+                lock (inactiveHosts)
                 {
-                    activeHosts = tmp;
+                    inactiveHosts = tmp;
                 }
             } while (run);
         }
