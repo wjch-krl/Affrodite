@@ -30,12 +30,15 @@ namespace AffroditeP2P
                 var priority = CpuUsageToPriority(cpuUsage);
                 var toDos = ballancerTask.GetJobs(priority);
                 var aviableMachines = remoteMachines.AviableHosts;
+                var aviableCount = aviableMachines.Count;
+                var tmp = aviableMachines.OrderBy(x => x.MachineNumber).Select((x, i) => new Tuple<IHost, int>(x, i));
+                var current = aviableMachines.First(x => x.MachineNumber == 1);
                 foreach (var job in toDos)
                 {
-                    var aviableCount = aviableMachines.Count;
-                    var tmp = aviableMachines.OrderBy(x=>x.MachineNumber).Select((x, i) => new Tuple<IHost, int>(x, i));
+                    
                     if(true)
                         ballancerTask.StartJob(job);
+
                     //TODO Critial - select job
                 }
             } while (run);
