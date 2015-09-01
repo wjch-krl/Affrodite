@@ -11,7 +11,7 @@ using Afrodite.Connection;
 
 namespace Afrodite
 {
-    internal class DatabaseMachineStateMenager : IRemoteMachinesManager, IDisposable
+    public class DatabaseMachineStateMenager : IRemoteMachinesManager, IDisposable
     {
         private readonly IHost[] hosts;
         private readonly IHost localhost;
