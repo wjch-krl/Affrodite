@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LocalHost xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MachineNumber>1</MachineNumber>
+  <MachineId>6532f224-3948-4e74-8dc2-b37d3da4aa99</MachineId>
+  <PingerPort>9999</PingerPort>
+  <Hosts>
+    <Host>
+      <MachineNumber>2</MachineNumber>
+      <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731c</MachineId>
+      <PingerPort>23145</PingerPort>
+	  <IpOrHostname>10.132.29.5</IpOrHostname>
+    </Host>
+    <Host>
+      <MachineNumber>3</MachineNumber>
+      <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731a</MachineId>
+      <PingerPort>23145</PingerPort>
+      <IpOrHostname>10.132.29.5</IpOrHostname>
+    </Host>
+    <Host>
+      <MachineNumber>4</MachineNumber>
+      <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731e</MachineId>
+      <PingerPort>23145</PingerPort>
+      <IpOrHostname>10.132.29.5</IpOrHostname>
+    </Host>
+    <Host>
+      <MachineNumber>5</MachineNumber>
+      <MachineId>3b74ce25-46af-4d7a-ad28-9901ff8a731f</MachineId>
+      <PingerPort>23145</PingerPort>
+      <IpOrHostname>10.132.29.5</IpOrHostname>
+    </Host>
+  </Hosts>
+  <Timeout>10000</Timeout>
+</LocalHost>
