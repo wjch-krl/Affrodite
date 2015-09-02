@@ -19,6 +19,14 @@ namespace AffroditeP2P
             reader = new ConfigFileReader(path);
         }
 
+        /// <summary>
+        /// Starts load balancer 
+        /// </summary>
+        /// <typeparam name="T">Task type</typeparam>
+        /// <param name="getTasksFunc">Func that is used to get aviable jobs with given type </param>
+        /// <param name="startTaskFunc">Func that is used to start new job</param>
+        /// <param name="maxPrior"></param>
+        /// <returns>System.Threading.Task that runs the load ballancer</returns>
         public Task StrartLoadBallancer<T>(Func<int, IEnumerable<T>> getTasksFunc, Func<T, bool> startTaskFunc,
             int maxPrior)
         {
@@ -34,6 +42,12 @@ namespace AffroditeP2P
             return ballancer.StartAsync();
         }
 
+        /// <summary>
+        /// Starts load balancer 
+        /// </summary>
+        /// <typeparam name="T">Task type</typeparam>
+        /// <param name="ballancerTask">Ballancer task to run</param>
+        /// <returns>System.Threading.Task that runs the load ballancer</returns>
         public Task StrartLoadBallancer<T>(IBallancerTask<T> ballancerTask)
         {
             var config = reader.ReadConfig();
