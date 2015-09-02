@@ -7,6 +7,8 @@ Affrodite is an .Net load balancer, for distributing workload (data processing) 
  - Write Tests
  - Add Code Comments
  - Rethink distributed mode
+ - Task types
+ - Task Prioryties
 
 # License
 
