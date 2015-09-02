@@ -78,6 +78,7 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Connection\Pinger.cs" />
     <Compile Include="DatabaseMachineStateMenager.cs" />
+    <Compile Include="IStateLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Concrete\JobState.cs" />
     <Compile Include="Abstract\IBallancer.cs" />

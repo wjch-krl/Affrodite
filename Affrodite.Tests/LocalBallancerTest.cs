@@ -110,5 +110,58 @@ namespace Affrodite.Tests
             Assert.IsFalse(task.IsFaulted);
             Assert.IsFalse(task.IsCanceled);
         }
+
+        [TestMethod]
+        public void TestDisconect()
+        {
+            var machineMgrMoq = new Mock<IRemoteMachinesManager>();
+            var moq = new MockRepository(MockBehavior.Default);
+            const int machCount = 5;
+            int iter = 0;
+            machineMgrMoq.Setup(manager => manager.UnaviableHosts()).
+                Returns((iter > 50) ? new int[0] : new []{2,3,4,5}).
+                Callback(()=>iter++);
+            machineMgrMoq.Setup(m => m.Count).Returns(machCount);
+
+            int ijk = 0;
+            var recived = new List<int>();
+            int tmp = 0;
+
+            var ballancerTask = new BallancerDelagateTask<int?>(i =>
+            {
+                if (ijk != 100) return new int?[] { ijk++ };
+                return Enumerable.Empty<int?>();
+            }, i =>
+            {
+                if (i != null) recived.Add(i.Value);
+                else
+                {
+                    tmp++;
+                    if (tmp > ijk)
+                        lock (this)
+                        {
+                            Monitor.PulseAll(this);
+                            return true;
+                        }
+                }
+                return true;
+            }, 1);
+
+            var ballancer = new LocalBallancer<int?>(ballancerTask,
+                moq.OneOf<IPerformanceManager>(),
+                machineMgrMoq.Object, 1);
+            var task = ballancer.StartAsync();
+
+            lock (this)
+            {
+                Monitor.Wait(this);
+                Assert.IsTrue(recived.Count > 49 + (ijk - 50)/ machCount, "{0}", recived.Count);
+            }
+
+            Assert.IsNotNull(ballancer);
+            Assert.IsFalse(task.IsCanceled);
+            Assert.IsFalse(task.IsFaulted);
+            Assert.IsFalse(task.IsCanceled);
+        }
     }
 }

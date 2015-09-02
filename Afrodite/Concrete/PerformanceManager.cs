@@ -70,6 +70,10 @@ namespace Afrodite.Concrete
             performanceCounter.Dispose();
         }
 
+        /// <summary>
+        /// [MiB]
+        /// </summary>
+        /// <returns></returns>
         public ulong GetUsedMemory()
         {
             return (new ComputerInfo().TotalPhysicalMemory - new ComputerInfo().AvailablePhysicalMemory) / 1048576;

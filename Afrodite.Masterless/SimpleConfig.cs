@@ -24,9 +24,10 @@ namespace AffroditeP2P
         {
             var config = reader.ReadConfig();
             var ballancerTask = new BallancerDelagateTask<T>(getTasksFunc, startTaskFunc, maxPrior);
-            var machineM = new DatabaseMachineStateMenager(config.Hosts, config, 
-                new SqlConnection("Server=PC-WKROL;Database=test;"),
-                "loadballancer_machines", "loadballancer_status");
+//            var machineM = new DatabaseMachineStateMenager(config.Hosts, config,
+//                new SqlConnection("Server=PC-WKROL;Database=test;Integrated Security=True;"),
+//                "loadballancer_machines");
+            var machineM = new RemoteMachinesManager(config.PingerPort, config.Timeout, config.Hosts, config);
 
             var ballancer = new LocalBallancer<T>(ballancerTask, new PerformanceManager(), machineM
                 ,config.MachineNumber);

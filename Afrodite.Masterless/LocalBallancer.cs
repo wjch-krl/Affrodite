@@ -46,6 +46,7 @@ namespace AffroditeP2P
                 {
                     int jobId = job.GetHashCode();
                     if (IsValidForMachine(jobId, machinesCount, currentMachineId, unaviableHosts))
+                        //TODO Test random with seed (taskId)
                     {
                         ballancerTask.StartJob(job);
                         hasStarted = true;

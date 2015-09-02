@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Afrodite.Abstract;
+using Afrodite.Common;
 using Afrodite.Concrete;
 using Afrodite.Connection;
 
@@ -16,35 +16,70 @@ namespace Afrodite
         private readonly IHost[] hosts;
         private readonly IHost localhost;
         private readonly IDbConnection connection;
-        private readonly string statusTableName;
         private readonly string machinesTablename;
         private bool run;
 
         public DatabaseMachineStateMenager(IEnumerable<IHost> hosts, IHost localhost, IDbConnection connection,
-            string statusTableName, string machinesTablename)
+            string machinesTablename)
         {
             this.hosts = hosts.ToArray();
             this.localhost = localhost;
             this.connection = connection;
-            this.statusTableName = statusTableName;
             this.machinesTablename = machinesTablename;
             run = true;
+            CancellationToken token = new CancellationToken();
+            CreateDbEntry();
             Task.Factory.StartNew(() =>
             {
+                token.ThrowIfCancellationRequested();
                 do
                 {
-                    UpdateStatus();
+                    CheckIn();
                     Thread.Sleep(5000);
                 } while (run);
-            });
+            },token);
         }
 
-        private int UpdateStatus()
+        private void CreateDbEntry()
         {
-            using (var command = connection.CreateCommand())
+            try
             {
-                command.CommandText = string.Format("update {0} set lbm_lastseen = now() where lbm_machineid = {1};", machinesTablename, localhost.MachineNumber);
-                return command.ExecuteNonQuery();
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                        string.Format("insert into {0} (lbm_machineid) values ({1})",
+                            machinesTablename, localhost.MachineNumber);
+                    command.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        private int CheckIn()
+        {
+            try
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                        string.Format("update {0} set lbm_lastseen = SYSDATETIME() where lbm_machineid = {1};",
+                            machinesTablename, localhost.MachineNumber);
+                    return command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LoggError(ex,Logger.GetCurrentMethod());
+                return -1;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -53,7 +88,7 @@ namespace Afrodite
             using (var command = connection.CreateCommand())
             {
                 command.CommandText =
-                    string.Format("Select * from {0} where lbm_lastseen > now() - '1 minute'::interval; ",
+                    string.Format("Select * from {0} where lbm_lastseen > SYSDATETIME() - DATEADD(minute, -1, SYSDATETIME());",
                         machinesTablename);
                 var reader = command.ExecuteReader();
                 return GetHosts(reader);
@@ -81,13 +116,21 @@ namespace Afrodite
 
         public IEnumerable<int> UnaviableHosts()
         {
-            using (var command = connection.CreateCommand())
+            try
             {
-                command.CommandText =
-                    string.Format("Select * from {0} where lbm_lastseen < now() - '1 minute'::interval; ",
-                        machinesTablename);
-                var reader = command.ExecuteReader();
-                return GetHostsIds(reader);
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                        string.Format("Select * from {0} where lbm_lastseen < DATEADD(minute, -1, SYSDATETIME()); ",
+                            machinesTablename);
+                    var reader = command.ExecuteReader();
+                    return GetHostsIds(reader);
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 

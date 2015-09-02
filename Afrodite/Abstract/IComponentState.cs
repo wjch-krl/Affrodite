@@ -14,7 +14,7 @@ namespace Afrodite.Abstract
 		/// Gets the used memory (In MiB).
 		/// </summary>
 		/// <value>The used memory.</value>
-		ulong UsedMemory{get;}
+		ulong UsedMemory {get;}
 		/// <summary>
 		/// Gets the cpu usage (Percentage per core).
 		/// </summary>
