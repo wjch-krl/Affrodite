@@ -67,8 +67,8 @@ namespace Afrodite
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText =
-                        string.Format("update {0} set lbm_lastseen = SYSDATETIME() where lbm_machineid = {1};",
-                            machinesTablename, localhost.MachineNumber);
+						string.Format("update {0} set lbm_lastseen = {2} where lbm_machineid = {1};",
+							machinesTablename, localhost.MachineNumber, DateTime.UtcNow);
                     return command.ExecuteNonQuery();
                 }
             }
@@ -88,8 +88,8 @@ namespace Afrodite
             using (var command = connection.CreateCommand())
             {
                 command.CommandText =
-                    string.Format("Select * from {0} where lbm_lastseen > SYSDATETIME() - DATEADD(minute, -1, SYSDATETIME());",
-                        machinesTablename);
+					string.Format("Select * from {0} where lbm_lastseen > {1};",
+						machinesTablename, DateTime.UtcNow.Subtract (TimeSpan.FromSeconds (60)) );
                 var reader = command.ExecuteReader();
                 return GetHosts(reader);
             }
@@ -122,8 +122,8 @@ namespace Afrodite
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText =
-                        string.Format("Select * from {0} where lbm_lastseen < DATEADD(minute, -1, SYSDATETIME()); ",
-                            machinesTablename);
+						string.Format("Select * from {0} where lbm_lastseen < {1}; ",
+							machinesTablename,DateTime.UtcNow.Subtract(TimeSpan.FromSeconds (60)));
                     var reader = command.ExecuteReader();
                     return GetHostsIds(reader);
                 }
