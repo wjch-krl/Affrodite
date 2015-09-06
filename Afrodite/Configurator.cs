@@ -21,7 +21,7 @@ namespace Afrodite
         public static void SetConfigPath(string path)
         {
             LocalHost = new ConfigFileReader(path).ReadConfig();
-            _localTaskRunner = new LocalComponent<TJob>(LocalHost.MachineId);
+			_localTaskRunner = new LocalComponent<TJob>(LocalHost.MachineId,LocalHost.MachineNumber);
         }
 
         public static void SetMaxPriotity(int maxPriority)

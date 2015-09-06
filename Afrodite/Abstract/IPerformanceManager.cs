@@ -13,5 +13,6 @@ namespace Afrodite.Abstract
         void Dispose();
         ulong GetUsedMemory();
         float GetAvgCpusUsage();
+		ulong GetFreeDiskSpace ();
     }
 }

@@ -28,7 +28,7 @@ namespace Afrodite.Connection
             this.stateInnterval = stateInnterval;
             this.componentStateManager = componentStateManager;
             this.propertiesBuilder = propertiesBuilder;
-            this.localComponent = new LocalComponent<TJob>(Configurator<TJob>.LocalHost.MachineId);
+			this.localComponent = new LocalComponent<TJob>(Configurator<TJob>.LocalHost.MachineId,Configurator<TJob>.LocalHost.MachineNumber);
 
             connection = factory.CreateConnection();
             session = connection.CreateSession();

@@ -95,6 +95,8 @@
     <Compile Include="Abstract\IComponentPropertiesBuilder.cs" />
     <Compile Include="Common\Deflector.cs" />
     <Compile Include="Concrete\RemoteComponent.cs" />
+    <Compile Include="DatabaseStateLogger.cs" />
+    <Compile Include="CsvFileStateLogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

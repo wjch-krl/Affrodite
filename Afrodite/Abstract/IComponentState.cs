@@ -11,10 +11,10 @@ namespace Afrodite.Abstract
 		/// <value>The machine identifier.</value>
 		Guid MachineId {get;}
 		/// <summary>
-		/// Gets the used memory (In MiB).
+		/// Gets the aviable memory (In MiB).
 		/// </summary>
-		/// <value>The used memory.</value>
-		ulong UsedMemory {get;}
+		/// <value>The aviable memory value.</value>
+		ulong AviableMemory {get;}
 		/// <summary>
 		/// Gets the cpu usage (Percentage per core).
 		/// </summary>
@@ -25,5 +25,15 @@ namespace Afrodite.Abstract
 		/// </summary>
 		/// <value>The active jobs.</value>
 		IEnumerable<IJob<TJob>> ActiveJobs{ get; }
+		/// <summary>
+		/// Gets the machine number.
+		/// </summary>
+		/// <value>The machine number.</value>
+		int MachineNumber { get;}
+		/// <summary>
+		/// Gets or sets the free disk space.
+		/// </summary>
+		/// <value>The free disk space.</value>
+		ulong FreeDiskSpace{ get; }
 	}
 }

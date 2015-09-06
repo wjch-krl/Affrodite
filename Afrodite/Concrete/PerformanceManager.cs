@@ -83,5 +83,11 @@ namespace Afrodite.Concrete
         {
             return GetCpusUsage().Values.Average();
         }
+
+		public ulong GetFreeDiskSpace ()
+		{
+			DriveInfo[] drives = DriveInfo.GetDrives();
+			return (ulong)drives.Sum(x => x.AvailableFreeSpace / 1048576);	
+		}
     }
 }

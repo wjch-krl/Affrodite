@@ -22,7 +22,7 @@ namespace Afrodite.Connection.Concrete
         {
             return new ComponentState<TJob>(performanceManager.GetCpusUsage(),machineInfo.MachineId,
                 performanceManager.GetTotalMemory()-performanceManager.GetAviableMemory(),
-                localBallancer.GetActiveJobs());
+				localBallancer.GetActiveJobs(),performanceManager.GetFreeDiskSpace (),machineInfo.MachineNumber);
         }
     }
 }

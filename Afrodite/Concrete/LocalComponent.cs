@@ -10,9 +10,11 @@ namespace Afrodite.Concrete
         private Guid machineGuid;
         private IPerformanceManager performanceManager;
         private List<IJob<TJob>> activeJobs;
+		int machineNumber;
 
-        public LocalComponent(Guid machineGuid)
+		public LocalComponent(Guid machineGuid,int machineNumber)
         {
+			this.machineNumber = machineNumber;
             this.machineGuid = machineGuid;
             performanceManager = new PerformanceManager();
             activeJobs = new List<IJob<TJob>>();
@@ -33,7 +35,7 @@ namespace Afrodite.Concrete
         public IComponentState<TJob> CurrentState()
         {
             return new ComponentState<TJob>(performanceManager.GetCpusUsage(), machineGuid,
-                performanceManager.GetUsedMemory(), GetActiveJobs());
+				performanceManager.GetUsedMemory(), GetActiveJobs(),performanceManager.GetFreeDiskSpace (),machineNumber);
         }
 
         public IEnumerable<IJob<TJob>> GetActiveJobs()

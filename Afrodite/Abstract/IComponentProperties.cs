@@ -44,6 +44,11 @@ namespace Afrodite.Abstract
 		/// </summary>
 		/// <value>The machine identifier.</value>
 		Guid MachineId{ get; set;}
+		/// <summary>
+		/// Gets or sets the machine number.
+		/// </summary>
+		/// <value>The machine number.</value>
+		int MachineNumber { get; set;}
 	}
 }
 

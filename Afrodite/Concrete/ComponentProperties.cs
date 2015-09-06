@@ -13,5 +13,6 @@ namespace Afrodite.Concrete
         public string CoputerName { get; set; }
         public string HostName { get; set; }
         public Guid MachineId { get; set; }
+		public int MachineNumber { get; set; }
     }
 }
