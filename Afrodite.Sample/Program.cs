@@ -21,11 +21,11 @@ namespace Afrodite.Sample
             int ijk = 0;
             SimpleConfig conf = new SimpleConfig("affrodite.xml");
 
-            var task = conf.StrartLoadBallancer(i => new[] {ijk++}, i =>
+			var task = conf.StrartLoadBallancer((int i) => new[] {ijk++}, i =>
             {
                 Console.WriteLine(i);
                 return true;
-            }, 1);
+			}, new []{new Tuple<int,Tuple<int,int>>(1,new Tuple<int,int> (0,100))});
             task.Wait();
         }
     }

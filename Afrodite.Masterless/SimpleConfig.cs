@@ -27,17 +27,17 @@ namespace AffroditeP2P
         /// <param name="startTaskFunc">Func that is used to start new job</param>
         /// <param name="maxPrior"></param>
         /// <returns>System.Threading.Task that runs the load ballancer</returns>
-        public Task StrartLoadBallancer<T>(Func<int, IEnumerable<T>> getTasksFunc, Func<T, bool> startTaskFunc,
-            int maxPrior)
+		public Task StrartLoadBallancer<TJob,TJobType>(Func<TJobType, IEnumerable<TJob>> getTasksFunc, Func<TJob, bool> startTaskFunc,
+			IEnumerable<Tuple<TJobType,Tuple<int,int>>> jobTypesMapping)
         {
             var config = reader.ReadConfig();
-            var ballancerTask = new BallancerDelagateTask<T>(getTasksFunc, startTaskFunc, maxPrior);
+			var ballancerTask = new BallancerDelagateTask<TJob,TJobType>(getTasksFunc, startTaskFunc, jobTypesMapping);
 //            var machineM = new DatabaseMachineStateMenager(config.Hosts, config,
 //                new SqlConnection("Server=PC-WKROL;Database=test;Integrated Security=True;"),
 //                "loadballancer_machines");
             var machineM = new RemoteMachinesManager(config.PingerPort, config.Timeout, config.Hosts, config);
 
-            var ballancer = new LocalBallancer<T>(ballancerTask, new PerformanceManager(), machineM
+			var ballancer = new LocalBallancer<TJob,TJobType>(ballancerTask, new PerformanceManager(), machineM
                 ,config.MachineNumber);
             return ballancer.StartAsync();
         }
@@ -48,11 +48,11 @@ namespace AffroditeP2P
         /// <typeparam name="T">Task type</typeparam>
         /// <param name="ballancerTask">Ballancer task to run</param>
         /// <returns>System.Threading.Task that runs the load ballancer</returns>
-        public Task StrartLoadBallancer<T>(IBallancerTask<T> ballancerTask)
+		public Task StrartLoadBallancer<TJob,TJobType>(IBallancerTask<TJob,TJobType> ballancerTask)
         {
             var config = reader.ReadConfig();
             var machineM = new RemoteMachinesManager(config.PingerPort, config.Timeout, config.Hosts, config);
-            var ballancer = new LocalBallancer<T>(ballancerTask, new PerformanceManager(),
+			var ballancer = new LocalBallancer<TJob,TJobType>(ballancerTask, new PerformanceManager(),
                 machineM, config.MachineNumber);
             return ballancer.StartAsync();
         }

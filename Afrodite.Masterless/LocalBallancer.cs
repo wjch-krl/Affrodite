@@ -4,18 +4,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using Afrodite.Abstract;
 using Afrodite.Connection;
+using System.Linq;
 
 namespace AffroditeP2P
 {
-    public class LocalBallancer<TJob> : IDisposable
+    public class LocalBallancer<TJob,TJobType> : IDisposable
     {
-        private readonly IBallancerTask<TJob> ballancerTask;
+		private readonly IBallancerTask<TJob,TJobType> ballancerTask;
         private IRemoteMachinesManager remoteMachines;
         private readonly int currentMachineId;
         private IPerformanceManager performanceManager;
         private bool run;
 
-        public LocalBallancer(IBallancerTask<TJob> ballancerTask, IPerformanceManager performanceManager,
+		public LocalBallancer(IBallancerTask<TJob,TJobType> ballancerTask, IPerformanceManager performanceManager,
             IRemoteMachinesManager remoteMachines, int currentMachineId)
         {
             if (ballancerTask == null)
@@ -36,8 +37,8 @@ namespace AffroditeP2P
             do
             {
                 var cpuUsage = performanceManager.GetAvgCpusUsage();
-                var priority = CpuUsageToPriority(cpuUsage);
-                var toDos = ballancerTask.GetJobs(priority);
+				var jobType = CpuUsageToJobType(cpuUsage);
+                var toDos = ballancerTask.GetJobs(jobType);
                 
                 int machinesCount = remoteMachines.Count;
                 var unaviableHosts = new HashSet<int>(remoteMachines.UnaviableHosts());
@@ -57,10 +58,11 @@ namespace AffroditeP2P
                 {
                     ballancerTask.StartJob(default(TJob));
                 }
-                if (priority == ballancerTask.MaxPriority)
-                {
-                    Thread.Sleep(1000);
-                }
+				//TODO
+//                if (jobType == ballancerTask.MaxPriority)
+//                {
+//                    Thread.Sleep(1000);
+//                }
             } while (run);
         }
 
@@ -77,11 +79,13 @@ namespace AffroditeP2P
                 toDispose.Dispose();
         }
 
-        private int CpuUsageToPriority(float cpuAvgUsage)
+		private TJobType CpuUsageToJobType(float cpuAvgUsage)
         {
-            double granulation = 100.0/ballancerTask.MaxPriority;
-            double interval = cpuAvgUsage/granulation;
-            return Convert.ToInt32(interval);
+			var workloads = ballancerTask.JobWorkloads;
+			//TODO test
+			return workloads.Where (x => 
+				x.Value.Item1 <= cpuAvgUsage && x.Value.Item2 > cpuAvgUsage
+			).Select (x=>x.Key).Single ();
         }
 
         private static bool IsValidForMachine(int taskId, int machinesCount, int currentMachineId,
